@@ -9,7 +9,7 @@ import discord
 import os
 import traceback
 
-client = commands.Bot(command_prefix = config.prefix,intents = discord.Intents.all())
+client = commands.Bot(command_prefix = "!",intents = discord.Intents.all())
 client.remove_command("help")
 stats = cycle(['!help', 'https://discord.gg/YkA5ft9'])
 @client.event
@@ -120,4 +120,5 @@ for filename in os.listdir("./cogs"):
 	if filename.endswith(".py"):
 		client.load_extension(f"cogs.{filename[:-3]}")
 
-client.run(config.token)
+token = os.environ.get('BOT_TOKEN')
+client.run(str(token))
