@@ -54,11 +54,9 @@ pypresence==4.0.0
 python-dateutil==2.8.1
 python-frontmatter==0.5.0
 PythonDNS==0.1
-pytube==10.0.0
 pywin32==300
 PyYAML==5.3.1
 pyzbar==0.1.8
-qrcode==6.1
 requests==2.24.0
 rfc3986==1.4.0
 rsa==4.6
@@ -75,7 +73,6 @@ urllib3==1.25.11
 vk-api==11.9.1
 wavelink==0.9.6
 wikipedia==1.4.0
-win10toast==0.9
 wrapt==1.12.1
 yarl==1.5.1
 youtube-dl==2020.11.24
