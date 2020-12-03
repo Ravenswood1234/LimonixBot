@@ -69,8 +69,6 @@ times==0.7
 toml==0.10.2
 typing-extensions==3.7.4.3
 urllib3==1.25.11
-vk-api==11.9.1
-wavelink==0.9.6
 wikipedia==1.4.0
 wrapt==1.12.1
 yarl==1.5.1
