@@ -54,7 +54,6 @@ pypresence==4.0.0
 python-dateutil==2.8.1
 python-frontmatter==0.5.0
 PythonDNS==0.1
-pywin32==300
 PyYAML==5.3.1
 pyzbar==0.1.8
 requests==2.24.0
