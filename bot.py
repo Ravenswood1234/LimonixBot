@@ -3,7 +3,6 @@ from discord.ext import commands, tasks
 from itertools import cycle 
 from datetime import datetime
 import datetime
-import config
 import io
 import discord
 import os
