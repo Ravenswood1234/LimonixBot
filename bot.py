@@ -59,6 +59,39 @@ async def on_error(event, *args, **kwargs): # для остальных ошиб
 ```"""
     embed.timestamp = datetime.datetime.utcnow()
     await channel.send(embed=embed)
+@client.event
+async def on_member_join(member):
+	channel=client.get_channel(758599386653261844)
+	emb=discord.Embed(title=f"Добро пожаловать на сервер NikitaLimon комьюнити!", colour=discord.Color.blue())
+	emb.add_field(name="Не забудь прочитать правила в канале: ", value="<#758706739008503849>", inline=False)
+	emb.add_field(name="Когда прочитал правила, можете идти общаться в канал: ", value="<#758599939151495180>", inline=False)
+	emb.set_thumbnail(url='https://i.pinimg.com/originals/01/fb/2c/01fb2cb2cf0855514cf1df69f46acda8.gif')
+	emb.set_image(url='https://i.pinimg.com/originals/af/80/39/af8039261a387be71514bb4c2e5e54b5.gif')
+	emb.set_footer(icon_url=member.avatar_url, text=f"{member.name}")
+	
+	await member.send(embed=emb)
+	imgs = Image.open("fons/limon.jpg")
+	img = imgs.resize((400, 250), Image.ANTIALIAS)
+	avatar_asset = member.avatar_url_as(format="jpg", size=4096)
+
+	# read JPG from server to buffer (file-like object)
+	buffer_avatar = io.BytesIO(await avatar_asset.read())
+	avatar_image = Image.open(buffer_avatar)
+	avatar_image = avatar_image.resize((100, 100), Image.ANTIALIAS) #
+	circle_image = Image.new("L", (100, 100))
+	circle_draw = ImageDraw.Draw(circle_image)
+	circle_draw.ellipse((0, 0, 100, 100), fill=255)
+	img.paste(avatar_image, (150, 80), circle_image)
+	idraw =ImageDraw.Draw(img)
+	name = ImageFont.truetype("arial.ttf", size=25)
+	undertext = ImageFont.truetype("arial.ttf", size=20)
+	idraw.text((25, 15), f"{member.name},",
+		font=name, fill='white')
+	idraw.text((140, 40), f"дoбро пожаловать!",
+		font=name, fill='white')
+	idraw.text((40, 200), f'На сервер {member.guild.name}', font=undertext)
+	img.save("join.png")
+	await channel.send(file = discord.File(fp=f"join.png"))
 @client.command(
 	name="Загрузить",
 	aliases=["load"],
