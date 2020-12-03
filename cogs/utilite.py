@@ -17,7 +17,6 @@ import wikipedia
 import asyncio
 import os
 import youtube_dl
-import qrcode
 """
 wiki 'вики', 'wiki', "wikipedia", "википедия"+
 userinfo "userinfo", "user", "юзер"+
