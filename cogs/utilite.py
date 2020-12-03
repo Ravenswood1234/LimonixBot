@@ -5,7 +5,6 @@ from itertools import cycle #pip install more-itertools
 from discord import Spotify, Embed, Role, Color
 from datetime import datetime
 from requests import get
-from pyzbar import pyzbar
 import io
 import aiohttp
 import datetime
