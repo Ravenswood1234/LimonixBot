@@ -73,7 +73,7 @@ async def on_member_join(member):
 	embb = discord.Embed(
 		title=f"{member.name}, обро пожаловать!",
 		colour=discord.Color.gold(), 
-		description=f"""**Поприветствуем** нового участника сервера. Его зовут {member.name},
+		description=f"""**Поприветствуем** нового участника сервера. Его зовут {member.mention},
 Он уже {member.guild.member_count} участник нашего сервера!""")
 	embb.set_footer(text=f"Сервер: {member.guild.name}")
 	embb.set_thumbnail(url=member.avatar_url)
