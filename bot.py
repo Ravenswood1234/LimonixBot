@@ -70,28 +70,15 @@ async def on_member_join(member):
 	emb.set_footer(icon_url=member.avatar_url, text=f"{member.name}")
 	
 	await member.send(embed=emb)
-	imgs = Image.open("fons/limon.jpg")
-	img = imgs.resize((400, 250), Image.ANTIALIAS)
-	avatar_asset = member.avatar_url_as(format="jpg", size=4096)
+	emb = discord.Embed(
+		title=f"{member.name}, обро пожаловать!",
+		colour=discord.Color.gold(), 
+		description=f"""**Поприветствуем** нового участника сервера. Его зовут {member.name},
+Он уже {member.guild.member_count} участник нашего сервера!""")
+	emb.set_footer(text=f"Сервер: {member.guild.name}", url=member.guild.icon_url)
+	emb.set_thumbnail(url=member.avatar_url)
 
-	# read JPG from server to buffer (file-like object)
-	buffer_avatar = io.BytesIO(await avatar_asset.read())
-	avatar_image = Image.open(buffer_avatar)
-	avatar_image = avatar_image.resize((100, 100), Image.ANTIALIAS) #
-	circle_image = Image.new("L", (100, 100))
-	circle_draw = ImageDraw.Draw(circle_image)
-	circle_draw.ellipse((0, 0, 100, 100), fill=255)
-	img.paste(avatar_image, (150, 80), circle_image)
-	idraw =ImageDraw.Draw(img)
-	name = ImageFont.truetype("arial.ttf", size=25)
-	undertext = ImageFont.truetype("arial.ttf", size=20)
-	idraw.text((25, 15), f"{member.name},",
-		font=name, fill='white')
-	idraw.text((140, 40), f"дoбро пожаловать!",
-		font=name, fill='white')
-	idraw.text((40, 200), f'На сервер {member.guild.name}', font=undertext)
-	img.save("join.png")
-	await channel.send(file = discord.File(fp=f"join.png"))
+	await channel.send(embed=emb)
 @client.command(
 	name="Загрузить",
 	aliases=["load"],
@@ -151,6 +138,5 @@ async def reload(ctx, extension):
 for filename in os.listdir("./cogs"):
 	if filename.endswith(".py"):
 		client.load_extension(f"cogs.{filename[:-3]}")
-
 token = os.environ.get('BOT_TOKEN')
 client.run(str(token))
