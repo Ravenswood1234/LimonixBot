@@ -62,23 +62,23 @@ async def on_error(event, *args, **kwargs): # для остальных ошиб
 @client.event
 async def on_member_join(member):
 	channel=client.get_channel(758599386653261844)
-	emb=discord.Embed(title=f"Добро пожаловать на сервер NikitaLimon комьюнити!", colour=discord.Color.blue())
+	emb=discord.Embed(title=f"Добро пожаловать на сервер {member.guild.name}", colour=discord.Color.blue())
 	emb.add_field(name="Не забудь прочитать правила в канале: ", value="<#758706739008503849>", inline=False)
 	emb.add_field(name="Когда прочитал правила, можете идти общаться в канал: ", value="<#758599939151495180>", inline=False)
 	emb.set_thumbnail(url='https://i.pinimg.com/originals/01/fb/2c/01fb2cb2cf0855514cf1df69f46acda8.gif')
 	emb.set_image(url='https://i.pinimg.com/originals/af/80/39/af8039261a387be71514bb4c2e5e54b5.gif')
-	emb.set_footer(icon_url=member.avatar_url, text=f"{member.name}")
+	
 	
 	await member.send(embed=emb)
-	emb = discord.Embed(
+	embb = discord.Embed(
 		title=f"{member.name}, обро пожаловать!",
 		colour=discord.Color.gold(), 
 		description=f"""**Поприветствуем** нового участника сервера. Его зовут {member.name},
 Он уже {member.guild.member_count} участник нашего сервера!""")
-	emb.set_footer(text=f"Сервер: {member.guild.name}", url=member.guild.icon_url)
-	emb.set_thumbnail(url=member.avatar_url)
+	embb.set_footer(text=f"Сервер: {member.guild.name}")
+	embb.set_thumbnail(url=member.avatar_url)
 
-	await channel.send(embed=emb)
+	await channel.send(embed=embb)
 @client.command(
 	name="Загрузить",
 	aliases=["load"],
