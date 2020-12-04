@@ -49,6 +49,48 @@ async def on_voice_state_update(member, before, after):
 			return len(channel2.members) == 0
 		await client.wait_for('voice_state_update', check=check)
 		await channel2.delete()
+	if after.channel.id == 784355319022223412:
+		
+		mainCategory = discord.utils.get(guild.categories, id=769093361533190164)
+		channel2 = await guild.create_voice_channel(name=f"⛏║{member}",category=mainCategory)
+		await member.move_to(channel2)
+		await channel2.set_permissions(member,mute_members=True,move_members=True,manage_channels=True)
+		def check(a,b,c):
+			return len(channel2.members) == 0
+		await client.wait_for('voice_state_update', check=check)
+		await channel2.delete()
+	if after.channel.id == 784355652600463360:
+		
+		mainCategory = discord.utils.get(guild.categories, id=769081221539037205)
+		channel2 = await guild.create_voice_channel(name=f"🔮║{member}",category=mainCategory)
+		await member.move_to(channel2)
+		await channel2.set_permissions(member,mute_members=True,move_members=True,manage_channels=True)
+		def check(a,b,c):
+			return len(channel2.members) == 0
+		await client.wait_for('voice_state_update', check=check)
+		await channel2.delete()
+	if after.channel.id == 784355798419636284:
+		
+		mainCategory = discord.utils.get(guild.categories, id=768864090759233547)
+		channel2 = await guild.create_voice_channel(name=f"🔪║{member}",category=mainCategory)
+		await member.move_to(channel2)
+		await channel2.set_permissions(member,mute_members=True,move_members=True,manage_channels=True)
+		def check(a,b,c):
+			return len(channel2.members) == 0
+		await client.wait_for('voice_state_update', check=check)
+		await channel2.delete()
+	if after.channel.id == 784356312641306655:
+		
+		mainCategory = discord.utils.get(guild.categories, id=769098923377688606)
+		channel2 = await guild.create_voice_channel(name=f"💀║{member}",category=mainCategory)
+		await member.move_to(channel2)
+		await channel2.set_permissions(member,mute_members=True,move_members=True,manage_channels=True)
+		def check(a,b,c):
+			return len(channel2.members) == 0
+		await client.wait_for('voice_state_update', check=check)
+		await channel2.delete()
+	else:
+		pass
 @client.event
 async def on_error(event, *args, **kwargs): # для остальных ошибок   
     channel = client.get_channel(770904950879682560)#вставьте свой айди канала
