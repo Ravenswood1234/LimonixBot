@@ -17,15 +17,15 @@ class Help(commands.Cog):
 			)
 		emb.add_field(
 			name="Модерация",
-			value="clear, say, poll, mute, unmute, ban, kick",
+			value="clear, say, poll, mute, unmute, ban, kick, prefix",
 			inline=False
 			)
 		emb.add_field(
 			name="Фан",
 			value="8ball, img, anekdot, fox, cat, dog"
 			)
-		emb.set_footer(text="При баге !bugs <bug>, при новой идеии !idea <idea>")
-		emb.set_author(name="Префикс: !")
+		emb.set_footer(text=f"При баге {ctx.prefix}bugs <bug>, при новой идеии {ctx.prefix}idea <idea>")
+		emb.set_author(name=f"Префикс: {ctx.prefix}")
 		await ctx.send(embed=emb)
 
 def setup(client):
