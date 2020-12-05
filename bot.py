@@ -40,8 +40,7 @@ async def on_ready():
 				'cash':0,
 				'rep':0,
 				'birthday':f'Неизвестно',
-				'information':f'Расскажите о себе',
-				'voic_active':0
+				'information':f'Расскажите о себе'
 			}
 			if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
 				collection.insert_one(user)
@@ -121,7 +120,7 @@ async def on_guild_join(guild):
 	post = {
 		"_guild_id": guild.id,
 		"prefix": "!",
-		"welcome": None
+		"welcome": 0
 	}
 	
 	prefixes.insert_one(post)
@@ -133,7 +132,7 @@ async def on_guild_join(guild):
 			'rep':0,
 			'birthday':f'Неизвестно',
 			'information':f'Расскажите о себе',
-			'voic_active':0
+
 		}
 
 @client.event
