@@ -12,6 +12,9 @@ cluster = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.n
 collection = cluster.lim.post
 prefix = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/Guild?retryWrites=true&w=majority")
 prefixes = prefix.Guild.prefixes
+users = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/member?retryWrites=true&w=majority")
+userinfo = users.member.information
+
 
 stats = cycle(['!help', 'https://discord.gg/YkA5ft9'])
 def get_prefix_gg(client, message):
@@ -39,11 +42,20 @@ async def on_ready():
 				'guild_id':guild.id,
 				'cash':0,
 				'rep':0,
-				'birthday':f'Неизвестно',
-				'information':f'Расскажите о себе'
+				'limoncoin':0,
+				'xp':0,
+				'lvl':0,
+				'nummessage':0
 			}
+			member = {
+				'id':member.id,
+				'info': f'Расскажите о себе {get_prefix_gg}осебе',
+				'second_half': 'Нету'
+				}
 			if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
 				collection.insert_one(user)
+			if userinfo.count_documents({'id':member.id})==0:
+				userinfo.insert_one(member)
 			
 	print("Bot connected to the server")
 	change_stats.start()
@@ -130,10 +142,20 @@ async def on_guild_join(guild):
 			'guild_id':guild.id,
 			'cash':0,
 			'rep':0,
-			'birthday':f'Неизвестно',
-			'information':f'Расскажите о себе',
-
+			'limoncoin':0
+			'xp':0,
+			'lvl':0,
+			'nummessage':0
 		}
+		member = {
+			'id':member.id,
+			'info': f'Расскажите о себе {get_prefix_gg}осебе',
+			'second_half': 'Нету'
+			}
+		if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
+			collection.insert_one(user)
+		if userinfo.count_documents({'id':member.id})==0:
+			userinfo.insert_one(member)
 
 @client.event
 async def on_guild_remove(guild):
