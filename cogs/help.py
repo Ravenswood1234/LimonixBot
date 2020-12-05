@@ -25,7 +25,11 @@ class Help(commands.Cog):
 			value="8ball, img, anekdot, fox, cat, dog",
 			inline=False
 			)
-		
+		emb.add_field(
+			name="Экономиика",
+			value="осебе",
+			inline=False
+			)
 		emb.set_footer(text=f"При баге {ctx.prefix}bugs <bug>, при новой идеии {ctx.prefix}idea <idea>")
 		emb.set_author(name=f"Префикс: {ctx.prefix}")
 		await ctx.send(embed=emb)
