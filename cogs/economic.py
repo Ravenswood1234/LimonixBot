@@ -68,6 +68,13 @@ class Econom(commands.Cog):
 					)
 	@commands.command(aliases=['осебе'])
 	async def osebe(self, ctx, *, text = None):
+		members = {
+			'member_id':ctx.author.id,
+			'info': f'Расскажите о себе',
+			'second_half': 'Нету'
+			}
+		if userinfo.count_documents({'member_id':ctx.author.id})==0:
+			userinfo.insert_one(members)
 		if text is None:
 			await ctx.sned(
 				embed=discord.Embed(
