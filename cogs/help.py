@@ -12,12 +12,12 @@ class Help(commands.Cog):
 			)
 		emb.add_field(
 			name="Утилиты",
-			value="wiki, userinfo, server, roleinfo, spotify, ping, ava, weather, google, say",
+			value="wiki, userinfo, server, roleinfo, spotify, ping, ava, weather, google, say,  report",
 			inline=False
 			)
 		emb.add_field(
 			name="Модерация",
-			value="clear, say, poll, mute, unmute, ban, kick, prefix, welcome",
+			value="clear, say, poll, mute, unmute, ban, kick, prefix, report-channel, welcome",
 			inline=False
 			)
 		emb.add_field(
