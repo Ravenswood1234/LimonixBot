@@ -170,6 +170,14 @@ KiwiCoin: 🥝""",)
 							colour=discord.Member.color
 							)
 						)
+			else:
+				await ctx.send(
+					embed=discord.Embed(
+						title="Пополнить",
+						description="Укажите **пользователя**!",
+						colour=discord.Color.red()
+						)
+					)
 	@award.error
 	async def award_error(self, ctx, error):
 		if isinstance(error, commands.UserInputError):
