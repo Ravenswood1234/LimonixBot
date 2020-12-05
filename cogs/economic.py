@@ -14,7 +14,8 @@ class Econom(commands.Cog):
 		self.client = client
 		self.prefix = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/Guild?retryWrites=true&w=majority")
 		self.prefixes = self.prefix.Guild.prefixes
-		
+		self.cluster = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/lim?retryWrites=true&w=majority")
+		self.collection = self.cluster.lim.post
 
 	@commands.command(aliases=['setprefix'])
 	@commands.has_permissions( administrator = True )
@@ -60,6 +61,34 @@ class Econom(commands.Cog):
 					embed=discord.Embed(
 						title="Канал для приветсвий",
 						description="Укажите текстовый канал!",
+						colour=discord.Color.red()
+						)
+					)
+	@commands.command(aliases=['осебе'])
+	async def osebe(self, ctx, *, text = None):
+		if text is None:
+			await ctx.sned(
+				embed=discord.Embed(
+					title="О себе",
+					description="Вы не указали текст",
+					colour=discord.Color.red()
+					)
+				)
+		else:
+			if len(text) < 200:
+				await ctx.send(
+					embed=discord.Embed(
+						title="Осебе",
+						description="В вашей биографии не может быть больше 200 символов"
+						)
+					)
+			else:
+				self.collection.update_one({"id":ctx.author.id,"guild_id": ctx.guild.id}, {"$set": {"information": text}})
+				await ctx.send(
+					embed=discord.Embed(
+
+						title="Успешно",
+						description="Вы успешно поменяли свою биографию на {}".format(text),
 						colour=discord.Color.red()
 						)
 					)
