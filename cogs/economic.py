@@ -84,7 +84,7 @@ class Econom(commands.Cog):
 					)
 				)
 		else:
-			if len(text) < 200:
+			if len(text) > 200:
 				await ctx.send(
 					embed=discord.Embed(
 						title="Осебе",
