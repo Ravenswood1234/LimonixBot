@@ -14,6 +14,7 @@ class Econom(commands.Cog):
 		self.client = client
 		self.prefix = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/Guild?retryWrites=true&w=majority")
 		self.prefixes = self.prefix.Guild.prefixes
+		
 
 	@commands.command(aliases=['setprefix'])
 	@commands.has_permissions( administrator = True )
