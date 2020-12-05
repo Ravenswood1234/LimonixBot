@@ -325,6 +325,13 @@ class Utilite(commands.Cog):
 		
 		
 		member = member or ctx.author
+		members = {
+			'member_id':member.id,
+			'info': f'Расскажите о себе',
+			'second_half': 'Нету'
+			}
+		if userinfo.count_documents({'member_id':member.id})==0:
+			userinfo.insert_one(members)
 		joined = member.joined_at
 		cr = member.created_at
 		created = cr.strftime('%H:%M %d.%m.%Yг')
