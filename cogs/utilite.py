@@ -325,13 +325,13 @@ class Utilite(commands.Cog):
 		
 		
 		member = member or ctx.author
-		members = {
-			'member_id':member.id,
-			'info': f'Расскажите о себе',
-			'second_half': 'Нету'
-			}
-		if userinfo.count_documents({'member_id':member.id})==0:
-			userinfo.insert_one(members)
+		# members = {
+		# 	'member_id':member.id,
+		# 	'info': f'Расскажите о себе',
+		# 	'second_half': 'Нету'
+		# 	}
+		# if userinfo.count_documents({'member_id':member.id})==0:
+		# 	userinfo.insert_one(members)
 		joined = member.joined_at
 		cr = member.created_at
 		created = cr.strftime('%H:%M %d.%m.%Yг')
@@ -341,10 +341,10 @@ class Utilite(commands.Cog):
 				title=f"Инфа о пользователе {member}",
 				colour=member.color
 				)
-			emb.add_field(
-				name="Биография пользователя",
-				value=f"{self.userinfo.find_one({'member_id':member.id})['info']}"
-				)
+			# emb.add_field(
+			# 	name="Биография пользователя",
+			# 	value=f"{self.userinfo.find_one({'member_id':member.id})['info']}"
+			# 	)
 			emb.set_thumbnail(url=member.avatar_url)
 			stik = {
 				"dnd":"<:dnd:780464026143555644>Не беспокоить",
