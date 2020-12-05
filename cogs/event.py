@@ -46,6 +46,7 @@ class Eve(commands.Cog):
 			embb.set_thumbnail(url=member.avatar_url)
 			embb.set_image(url="attachment://hello.gif")
 			await channel.send(file=file, embed=embb)
+
 	# @commands.Cog.listener()
 	# async def on_typing(self, channel, user, when):
 	# 	date = when.strftime("%d/%m/%Y %H:%M %p")
