@@ -137,26 +137,7 @@ async def on_guild_join(guild):
 	
 	prefixes.insert_one(post)
 	for member in guild.members:
-		user={
-			'id':member.id,
-			'guild_id':guild.id,
-			'cash':0,
-			'rep':0,
-			'limoncoin':0,
-			'xp':0,
-			'lvl':0,
-			'nummessage':0
-		}
-		member = {
-			'id':member.id,
-			'info': f'Расскажите о себе {get_prefix_gg}осебе',
-			'second_half': 'Нету'
-			}
-		if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
-			collection.insert_one(user)
-		if userinfo.count_documents({'id':member.id})==0:
-			userinfo.insert_one(member)
-
+		
 @client.event
 async def on_guild_remove(guild):
 	prefixes.delete_one({"_guild_id": guild.id})
