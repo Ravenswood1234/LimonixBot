@@ -575,8 +575,8 @@ class Utilite(commands.Cog):
 			name="Меня зовут LimonixBot",
 			value=f"""Я основан на языке: Python
 Меня создал: {self.client.owner},
-Моя версия discord.py: {discord.__version__}
 Я состою на {len(self.client.guilds)}
+Всего пользователей: {len(set(self.client.get_all_members()))}
 			"""
 			)
 		emb.set_thumbnail(url=self.client.user.avatar_url)
