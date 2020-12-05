@@ -66,6 +66,119 @@ class Econom(commands.Cog):
 						colour=discord.Color.red()
 						)
 					)
+	@commands.command(aliases=['баланс'])
+	async def balance(self, ctx, member:discord.Member=None):
+		member = member or ctx.author
+		if type(member) == discord.Member:
+			user={
+				'id':member.id,
+				'guild_id':ctx.guild.id,
+				'cash':0,
+				'rep':0,
+				'limoncoin':0,
+				'xp':0,
+				'lvl':0,
+				'nummessage':0
+			}
+			if collection.count_documents({'id':member.id, 'guild_id':ctx.guild.id})==0:
+				collection.insert_one(user)
+
+			emb = discord.Embed(
+				colour=discord.Color.gold()
+				)
+			emb.add_field(
+				name=f"Баланс пользователя {member.name}",
+				value=f"""Limoncoin: {self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['limoncoin']}
+Монет: {self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})}"""
+				)
+			await ctx.send(embed=emb)
+		else:
+			user={
+				'id':ctx.author.id,
+				'guild_id':ctx.guild.id,
+				'cash':0,
+				'rep':0,
+				'limoncoin':0,
+				'xp':0,
+				'lvl':0,
+				'nummessage':0
+			}
+			if collection.count_documents({'id':ctx.author.id, 'guild_id':ctx.guild.id})==0:
+				collection.insert_one(user)
+
+			emb = discord.Embed(
+				colour=discord.Color.gold()
+				)
+			emb.add_field(
+				name=f"Баланс пользователя {ctx.author.name}",
+				value=f"""LimonCoin: {self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']}
+KiwiCoin: {self.collection.find_one({'id':ctx.author.id, 'guild_id':ctx.guild.id})}"""
+				)
+			await ctx.send(embed=emb)
+	@commands.command(aliases=['addmoney'])
+	@commands.has_permissions(administrator=True)
+	async def award(self, ctx, member:discord.Member=None, amount:int = None):
+		lim = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
+		Kiwi = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['cash']
+		if member is None:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Пополнить",
+					description="Вы не указали пользователя!",
+					colour=discord.Color.red()
+					)
+				)
+		elif amount is None:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Пополнить",
+					description="Вы неуказали кол-во монет которые хотите выдать пользователю",
+					colour=discord.Color.red()
+					)
+				)
+		else:
+			if type(member) == discord.Member:
+				msg=await ctx.send(
+					embed=discord.Embed(
+						title="Пополнить",
+						description="""Выберите какую валюту хотите пополнить:
+LimonCoin: 🍋 
+KiwiCoin: 🥝""",)
+
+					)
+				await msg.add_reaction('🥝')
+				await msg.add_reaction('🍋')
+				def check(reaction, user):
+					return user == ctx.author
+				reaction, user = await self.client.wait_for('reaction_add', check = check)
+				if str(reaction.emoji) == '🥝':
+
+					self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
+					await ctx.send(
+						embed=discord.Embed(
+							title="Успешно",
+							description=f"Вы пополнили баланс пользователю {member.name}",
+							colour=discord.Member.color
+							)
+						)
+				if str(reaction.emoji) == '🍋':
+					self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + amount}})
+					await ctx.send(
+						embed=discord.Embed(
+							title="Успешно",
+							description=f"Вы пополнили баланс пользователю {member.name}",
+							colour=discord.Member.color
+							)
+						)
+	@award.error
+	async def award_error(self, ctx, error):
+		if isinstance(error, commands.UserInputError):
+			await ctx.send(
+				embed=discord.Embed(
+					title="Пополнить",
+					description="Укажите сумму которую хотите поплони пользователю!",
+					colour=discord.Color.red()
+					))
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
 	# 	members = {
