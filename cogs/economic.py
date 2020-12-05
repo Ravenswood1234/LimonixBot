@@ -16,6 +16,8 @@ class Econom(commands.Cog):
 		self.prefixes = self.prefix.Guild.prefixes
 		self.cluster = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/lim?retryWrites=true&w=majority")
 		self.collection = self.cluster.lim.post
+		self.users = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/member?retryWrites=true&w=majority")
+		self.userinfo = self.users.member.information
 
 	@commands.command(aliases=['setprefix'])
 	@commands.has_permissions( administrator = True )
@@ -83,7 +85,7 @@ class Econom(commands.Cog):
 						)
 					)
 			else:
-				self.collection.update_one({"id":ctx.author.id,"guild_id": ctx.guild.id}, {"$set": {"information": text}})
+				self.userinfo.update_one({"id":ctx.author.id}, {"$set": {"information": text}})
 				await ctx.send(
 					embed=discord.Embed(
 
