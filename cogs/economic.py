@@ -68,21 +68,9 @@ class Econom(commands.Cog):
 					)
 	@commands.command(aliases=['баланс'])
 	async def balance(self, ctx, member:discord.Member=None):
-		member = member or ctx.author
+		if member is None:
+			member = ctx.author
 		if type(member) == discord.Member:
-			user={
-				'id':member.id,
-				'guild_id':ctx.guild.id,
-				'cash':0,
-				'rep':0,
-				'limoncoin':0,
-				'xp':0,
-				'lvl':0,
-				'nummessage':0
-			}
-			if collection.count_documents({'id':member.id, 'guild_id':ctx.guild.id})==0:
-				collection.insert_one(user)
-
 			emb = discord.Embed(
 				colour=discord.Color.gold()
 				)
@@ -93,18 +81,6 @@ class Econom(commands.Cog):
 				)
 			await ctx.send(embed=emb)
 		else:
-			user={
-				'id':ctx.author.id,
-				'guild_id':ctx.guild.id,
-				'cash':0,
-				'rep':0,
-				'limoncoin':0,
-				'xp':0,
-				'lvl':0,
-				'nummessage':0
-			}
-			if collection.count_documents({'id':ctx.author.id, 'guild_id':ctx.guild.id})==0:
-				collection.insert_one(user)
 
 			emb = discord.Embed(
 				colour=discord.Color.gold()
@@ -153,7 +129,7 @@ KiwiCoin: 🥝""",)
 				reaction, user = await self.client.wait_for('reaction_add', check = check)
 				if str(reaction.emoji) == '🥝':
 
-					self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
+					self.collection.update_one({"_guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
 					await ctx.send(
 						embed=discord.Embed(
 							title="Успешно",
@@ -162,7 +138,7 @@ KiwiCoin: 🥝""",)
 							)
 						)
 				if str(reaction.emoji) == '🍋':
-					self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + amount}})
+					self.collection.update_one({"_guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + amount}})
 					await ctx.send(
 						embed=discord.Embed(
 							title="Успешно",
