@@ -19,8 +19,8 @@ class Eve(commands.Cog):
 		print("Event cog connect")
 	@commands.Cog.listener()
 	async def on_member_join(self, member):
-		channell = self.prefixes.find_one({'guild_id': member.guild.id})['welcome']
-		if channell == 0:
+		idc = self.prefixes.find_one({'guild_id': member.guild.id})['welcome']
+		if idc == 0:
 			pass
 		else:
 			channel=self.client.get_channel(int(channell))
