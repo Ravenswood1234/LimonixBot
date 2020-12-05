@@ -85,7 +85,7 @@ class Econom(commands.Cog):
 						)
 					)
 			else:
-				self.userinfo.update_one({"id":ctx.author.id}, {"$set": {"information": text}})
+				self.userinfo.update_one({"member_id":ctx.author.id}, {"$set": {"info": text}})
 				await ctx.send(
 					embed=discord.Embed(
 
