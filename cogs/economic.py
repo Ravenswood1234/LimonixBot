@@ -44,7 +44,7 @@ class Econom(commands.Cog):
 
 				)
 		else:
-			self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"prefix": str(channel.id)}})
+			self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"welcome": str(channel.id)}})
 			await ctx.send(
 				embed=discord.Embed(
 					title="Успешно",
