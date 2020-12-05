@@ -17,7 +17,7 @@ class Help(commands.Cog):
 			)
 		emb.add_field(
 			name="Модерация",
-			value="clear, say, poll, mute, unmute, ban, kick, prefix",
+			value="clear, say, poll, mute, unmute, ban, kick, prefix, welcome",
 			inline=False
 			)
 		emb.add_field(
