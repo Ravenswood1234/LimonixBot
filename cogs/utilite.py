@@ -336,7 +336,7 @@ class Utilite(commands.Cog):
 				)
 			emb.add_field(
 				name="Биография пользователя",
-				value=f"{self.userinfo.find_one({'id':member.id})['information']}"
+				value=f"{self.userinfo.find_one({'member_id':member.id})['info']}"
 				)
 			emb.set_thumbnail(url=member.avatar_url)
 			stik = {
