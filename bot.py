@@ -136,7 +136,7 @@ async def on_guild_join(guild):
 	}
 	
 	prefixes.insert_one(post)
-	for member in guild.members:
+
 		
 @client.event
 async def on_guild_remove(guild):
