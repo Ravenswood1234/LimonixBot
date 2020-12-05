@@ -33,7 +33,7 @@ class Econom(commands.Cog):
 			await ctx.send(embed = emb)
 	@commands.command(aliases=['welcome'])
 	@commands.has_permissions( administrator = True )
-	async def setwelchannel(self, ctx, channel: discord.Channel=None):
+	async def setwelchannel(self, ctx, channel: discord.TextChannel=None):
 		if channel is None:
 			await ctx.send(
 				embed=discord.Embed(
