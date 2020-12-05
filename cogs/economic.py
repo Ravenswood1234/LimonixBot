@@ -88,7 +88,7 @@ class Econom(commands.Cog):
 			emb.add_field(
 				name=f"Баланс пользователя {ctx.author.name}",
 				value=f"""LimonCoin: {self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']}
-KiwiCoin: {self.collection.find_one({'id':ctx.author.id, 'guild_id':ctx.guild.id})}"""
+KiwiCoin: {self.collection.find_one({'id':ctx.author.id, 'guild_id':ctx.guild.id})['cash']}"""
 				)
 			await ctx.send(embed=emb)
 	@commands.command(aliases=['addmoney'])
@@ -129,7 +129,7 @@ KiwiCoin: 🥝""",)
 				reaction, user = await self.client.wait_for('reaction_add', check = check)
 				if str(reaction.emoji) == '🥝':
 
-					self.collection.update_one({"_guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
+					self.collection.update_one({"id":member.id"guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
 					await ctx.send(
 						embed=discord.Embed(
 							title="Успешно",
@@ -138,7 +138,7 @@ KiwiCoin: 🥝""",)
 							)
 						)
 				if str(reaction.emoji) == '🍋':
-					self.collection.update_one({"_guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + amount}})
+					self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + amount}})
 					await ctx.send(
 						embed=discord.Embed(
 							title="Успешно",
