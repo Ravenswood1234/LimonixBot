@@ -577,7 +577,6 @@ class Utilite(commands.Cog):
 Меня создал: {self.client.owner},
 Моя версия discord.py: {discord.__version__}
 Я состою на {len(self.client.guilds)}
-Всего пользователей: {len(set(self.client.get_all_members()))}
 			"""
 			)
 		emb.set_thumbnail(url=self.client.user.avatar_url)
