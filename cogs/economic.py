@@ -34,6 +34,7 @@ class Econom(commands.Cog):
 	@commands.command(aliases=['welcome'])
 	@commands.has_permissions( administrator = True )
 	async def setwelchannel(self, ctx, channel: discord.TextChannel=None):
+		
 		if channel is None:
 			await ctx.send(
 				embed=discord.Embed(
@@ -44,13 +45,23 @@ class Econom(commands.Cog):
 
 				)
 		else:
-			self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"welcome": int(channel.id)}})
-			await ctx.send(
-				embed=discord.Embed(
-					title="Успешно",
-					description=f"Вы успешно установили канал для приветсвий <#{channel.id}>",
-					colour=discord.Color.gold()
+			if type(channel) == discord.TextChannel:
+				self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"welcome": int(channel.id)}})
+				await ctx.send(
+					embed=discord.Embed(
+						title="Успешно",
+						description=f"Вы успешно установили канал для приветсвий <#{channel.id}>",
+						colour=discord.Color.gold()
+						)
 					)
-				)
+			else:
+				await ctx.send(
+					embed=discord.Embed(
+						title="Канал для приветсвий",
+						description="Укажите текстовый канал!",
+						colour=discord.Color.red()
+						)
+					)
+
 def setup(client):
 	client.add_cog(Econom(client))
