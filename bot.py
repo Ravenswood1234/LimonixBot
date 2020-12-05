@@ -125,6 +125,17 @@ async def on_guild_join(guild):
 	}
 	
 	prefixes.insert_one(post)
+	for member in guild.members:
+		user={
+			'id':member.id,
+			'guild_id':guild.id,
+			'cash':0,
+			'rep':0,
+			'birthday':f'Неизвестно',
+			'information':f'Расскажите о себе',
+			'voic_active':0
+		}
+
 @client.event
 async def on_guild_remove(guild):
 	prefixes.delete_one({"_guild_id": guild.id})
