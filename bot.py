@@ -49,13 +49,7 @@ async def on_ready():
 			}
 			if collection.count_documents({'id':member.id, 'guild_id':guild.id})==0:
 				collection.insert_one(user)
-			members = {
-				'member_id':member.id,
-				'info': f'Расскажите о себе',
-				'second_half': 'Нету'
-				}
-			if userinfo.count_documents({'member_id':member.id})==0:
-				userinfo.insert_one(members)
+			
 			
 	print("Bot connected to the server")
 	change_stats.start()
