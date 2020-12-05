@@ -23,7 +23,7 @@ class Eve(commands.Cog):
 		if idc == 0:
 			pass
 		else:
-			channel=self.client.get_channel(int(channell))
+			channel=self.client.get_channel(int(idc))
 			file = discord.File("./hello.gif", filename="hello.gif")
 			embb = discord.Embed(
 				title=f"{member.name}, добро пожаловать!",
