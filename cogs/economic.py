@@ -31,6 +31,26 @@ class Econom(commands.Cog):
 			
 			emb = discord.Embed(title = "Изменение префикса", description = f"Префикс сервера был обновлён на: {arg}", colour = discord.Color.green())
 			await ctx.send(embed = emb)
-	
+	@commands.command(aliases=['welcome'])
+	@commands.has_permissions( administrator = True )
+	async def setwelchannel(self, ctx, channel: discord.Channel=None):
+		if channel is None:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Канал приветствия",
+					description="Вы не указали канал",
+					colour=discord.Color.red()
+					)
+
+				)
+		else:
+			self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"prefix": channel.id}})
+			await ctx.send(
+				embed=discord.Embed(
+					title="Успешно",
+					description=f"Вы успешно установили канал для приветсвий <#{channel.id}>",
+					colour=discord.Color.gold()
+					)
+				)
 def setup(client):
 	client.add_cog(Econom(client))
