@@ -27,7 +27,8 @@ async def on_ready():
 	for guild in client.guilds:
 		post = {
 			"_guild_id": guild.id,
-			"prefix": "!"
+			"prefix": "!",
+			"welcome": None
 		}
 		if prefixes.count_documents({"guild_id": guild.id}) == 0:
 			prefixes.insert_one(post)
@@ -119,7 +120,8 @@ async def on_voice_state_update(member, before, after):
 async def on_guild_join(guild):
 	post = {
 		"_guild_id": guild.id,
-		"prefix": "."
+		"prefix": "!",
+		"welcome": None
 	}
 	
 	prefixes.insert_one(post)
