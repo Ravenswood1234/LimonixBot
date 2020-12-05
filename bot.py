@@ -47,13 +47,13 @@ async def on_ready():
 				'lvl':0,
 				'nummessage':0
 			}
+			if collection.count_documents({'id':member.id, 'guild_id':guild.id})==0:
+				collection.insert_one(user)
 			member = {
 				'id':member.id,
-				'info': f'Расскажите о себе {get_prefix_gg}осебе',
+				'info': f'Расскажите о себе',
 				'second_half': 'Нету'
 				}
-			if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
-				collection.insert_one(user)
 			if userinfo.count_documents({'id':member.id})==0:
 				userinfo.insert_one(member)
 			
