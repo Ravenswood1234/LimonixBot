@@ -16,6 +16,7 @@ class Econom(commands.Cog):
 		self.prefixes = self.prefix.Guild.prefixes
 
 	@commands.command(aliases=['setprefix'])
+	@commands.has_permissions( administrator = True )
 	async def prefix(self, ctx, arg: str = None):
 		if arg is None:
 			emb = discord.Embed(title = "Изменение префикса", description = "Введите префикс, на какой хотите поменять?", colour = discord.Color.red())
