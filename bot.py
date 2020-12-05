@@ -2,40 +2,63 @@
 from discord.ext import commands, tasks
 from itertools import cycle 
 from datetime import datetime
+from pymongo import MongoClient
 import datetime
 import io
 import discord
 import os
 import traceback
+cluster = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/lim?retryWrites=true&w=majority")
+collection = cluster.lim.post
+prefix = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/Guild?retryWrites=true&w=majority")
+prefixes = prefix.Guild.prefixes
 
-client = commands.Bot(command_prefix = "!",intents = discord.Intents.all())
-client.remove_command("help")
 stats = cycle(['!help', 'https://discord.gg/YkA5ft9'])
+def get_prefix_gg(client, message):
+	prefix_server = prefixes.find_one({"_guild_id": message.guild.id})["prefix"]
+	return str(prefix_server)
+
+
+
+client = commands.Bot(command_prefix = get_prefix_gg, intents = discord.Intents.all())   
+client.remove_command("help")
 @client.event
 async def on_ready():
+	for guild in client.guilds:
+		post = {
+			"_guild_id": guild.id,
+			"prefix": "!"
+		}
+		if prefixes.count_documents({"guild_id": guild.id}) == 0:
+			prefixes.insert_one(post)
+		for member in guild.members:
+
+			user={
+				'id':member.id,
+				'guild_id':guild.id,
+				'cash':0,
+				'rep':0,
+				'birthday':f'Неизвестно',
+				'information':f'Расскажите о себе',
+				'voic_active':0
+			}
+			if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
+				collection.insert_one(user)
+			
 	print("Bot connected to the server")
 	change_stats.start()
 @tasks.loop(seconds = 10)
 async def change_stats():
 	await client.change_presence( status = discord.Status.do_not_disturb, activity = discord.Game(name = next(stats)))
 @client.event
-async def on_command_error(ctx, exception):
+async def on_command_error(ctx, error):
 	if isinstance(error, commands.MissingPermissions):
-			await ctx.send(embed=discord.Embed(
-				title=':x:Ошибка',
-				description=f"""Недостаточно прав для использования команды!""", 
-				colour=discord.Color.red()),
-				delete_after=10
-				)
-	else:
-	    channel = client.get_channel(770904950879682560)#вставьте свой айди канала
-	    embed = discord.Embed(title=':x: Ошибка Команды(Command)', colour=0xe74c3c)
-	    embed.add_field(name='Введённая команда', value=ctx.command)
-	    embed.description = f"""```py
-	{traceback.format_exception(type(exception), exception, exception.__traceback__)}
-	```"""
-	    embed.timestamp = datetime.datetime.utcnow()
-	    await channel.send(embed=embed)
+		await ctx.send(embed=discord.Embed(
+			title=':x:Ошибка',
+			description=f"""Недостаточно прав для использования команды!""", 
+			colour=discord.Color.red()),
+			delete_after=10
+			)
 @client.event
 async def on_voice_state_update(member, before, after):
 	guild = member.guild
@@ -91,37 +114,19 @@ async def on_voice_state_update(member, before, after):
 		await channel2.delete()
 	else:
 		pass
+
 @client.event
-async def on_error(event, *args, **kwargs): # для остальных ошибок   
-    channel = client.get_channel(770904950879682560)#вставьте свой айди канала
-    embed = discord.Embed(title=':x: Ошибка События(Event)', colour=0xe74c3c) #Red
-    embed.add_field(name='Событие', value=event)
-    embed.description = f"""```py
-{traceback.format_exc()}
-```"""
-    embed.timestamp = datetime.datetime.utcnow()
-    await channel.send(embed=embed)
+async def on_guild_join(guild):
+	post = {
+		"_guild_id": guild.id,
+		"prefix": "."
+	}
+	
+	prefixes.insert_one(post)
 @client.event
-async def on_member_join(member):
-	channel=client.get_channel(758599386653261844)
-	emb=discord.Embed(title=f"Добро пожаловать на сервер {member.guild.name}", colour=discord.Color.blue())
-	emb.add_field(name="Не забудь прочитать правила в канале: ", value="<#758706739008503849>", inline=False)
-	emb.add_field(name="Когда прочитал правила, можете идти общаться в канал: ", value="<#758599939151495180>", inline=False)
-	emb.set_thumbnail(url='https://i.pinimg.com/originals/01/fb/2c/01fb2cb2cf0855514cf1df69f46acda8.gif')
-	emb.set_image(url='https://i.pinimg.com/originals/af/80/39/af8039261a387be71514bb4c2e5e54b5.gif')
-	
-	
-	await member.send(embed=emb)
-	embb = discord.Embed(
-		title=f"{member.name}, добро пожаловать!",
-		colour=discord.Color.gold(), 
-		description=f"""**Поприветствуем** нового участника сервера.
-Его зовут {member.mention}.
-Он уже {member.guild.member_count} участник нашего сервера!""")
-	embb.set_footer(text=f"Сервер: {member.guild.name}")
-	embb.set_thumbnail(url=member.avatar_url)
-	embb.set_image(url="https://i.ibb.co/drPZW7d/hello.gif")
-	await channel.send(embed=embb)
+async def on_guild_remove(guild):
+	prefixes.delete_one({"_guild_id": guild.id})
+
 @client.command(
 	name="Загрузить",
 	aliases=["load"],
@@ -181,5 +186,6 @@ async def reload(ctx, extension):
 for filename in os.listdir("./cogs"):
 	if filename.endswith(".py"):
 		client.load_extension(f"cogs.{filename[:-3]}")
+
 token = os.environ.get('BOT_TOKEN')
 client.run(str(token))
