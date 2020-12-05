@@ -568,23 +568,19 @@ class Utilite(commands.Cog):
 			await ctx.send(embed=embed)
 	@commands.command()
 	async def bot(self, ctx):
-		pythonVersion = platform.python_version()
-		dpyVersion = discord.__version__
-		serverCount = len(client.guilds)
-		memberCount = len(set(client.get_all_members()))
 		emb = discord.Embed(
-			title="Инфо обо мне",
-			colour=discord.Color.green()
+			colour=discord.Color.gold()
 			)
 		emb.add_field(
-			name=f"Меня зовут {self.client.name}",
-			value=f"""Я состою на: {serverCount}
-Я основан на: {dpyVersion}
-Моя версия пайтона: {pythonVersion}
-Мной пользуются: {memberCount}
-Мой разработчик: NikitaLimon#8925
-Версия: 2.0"""
+			name="Меня зовут LimonixBot",
+			value=f"""Я основан на языке: Python
+Меня создал: {self.client.owner},
+Моя версия discord.py: {discord.__version__}
+Я состою на {len(self.client.guilds)}
+Всего пользователей: {len(set(self.client.get_all_members()))}
+			"""
 			)
+		emb.set_thumbnail(url=self.client.user.avatar_url)
 		await ctx.send(embed=emb)
 
 	# @commands.command()
