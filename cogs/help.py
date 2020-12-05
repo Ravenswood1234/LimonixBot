@@ -12,18 +12,20 @@ class Help(commands.Cog):
 			)
 		emb.add_field(
 			name="Утилиты",
-			value="wiki, userinfo, server, roleinfo, spotify, ping, ava, weather, google, say,  report",
+			value="wiki, userinfo, server, bot, roleinfo, spotify, ping, ava, weather, google, say,  report",
 			inline=False
 			)
 		emb.add_field(
 			name="Модерация",
-			value="clear, say, poll, mute, unmute, ban, kick, prefix, report-channel, welcome",
+			value="clear, say, poll, mute, slowmode, unmute, ban, kick, prefix, report-channel, welcome",
 			inline=False
 			)
 		emb.add_field(
 			name="Фан",
-			value="8ball, img, anekdot, fox, cat, dog"
+			value="8ball, img, anekdot, fox, cat, dog",
+			inline=False
 			)
+		
 		emb.set_footer(text=f"При баге {ctx.prefix}bugs <bug>, при новой идеии {ctx.prefix}idea <idea>")
 		emb.set_author(name=f"Префикс: {ctx.prefix}")
 		await ctx.send(embed=emb)
