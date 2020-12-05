@@ -20,10 +20,10 @@ class Eve(commands.Cog):
 	@commands.Cog.listener()
 	async def on_member_join(self, member):
 		channell = self.prefixes.find_one({'guild.id': member.guild.id})['welcome']
-		if channel == 0:
+		if channell == 0:
 			pass
 		else:
-			channel=self.client.get_channel(channell)
+			channel=self.client.get_channel(int(channell))
 			file = discord.File("./hello.gif", filename="hello.gif")
 			embb = discord.Embed(
 				title=f"{member.name}, добро пожаловать!",
