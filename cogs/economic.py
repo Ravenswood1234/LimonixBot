@@ -129,7 +129,7 @@ KiwiCoin: 🥝""",)
 				reaction, user = await self.client.wait_for('reaction_add', check = check)
 				if str(reaction.emoji) == '🥝':
 
-					self.collection.update_one({"id":member.id"guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
+					self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
 					await ctx.send(
 						embed=discord.Embed(
 							title="Успешно",
