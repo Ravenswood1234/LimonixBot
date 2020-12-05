@@ -34,6 +34,8 @@ class Utilite(commands.Cog):
 		self.client = client
 		self.cluster = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/lim?retryWrites=true&w=majority")
 		self.collection = self.cluster.lim.post
+		self.users = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/member?retryWrites=true&w=majority")
+		self.userinfo = self.users.member.information
 	@commands.command(
 		name="Аватар",
 		aliases=['ava', 'avatar'],
@@ -333,7 +335,7 @@ class Utilite(commands.Cog):
 				)
 			emb.add_field(
 				name="Биография пользователя",
-				value=f"{self.collection.find_one({'id':member.id, 'guild_id':guild.id})['information']}"
+				value=f"{self.userinfo.find_one({'id':member.id})['information']}"
 				)
 			emb.set_thumbnail(url=member.avatar_url)
 			stik = {
