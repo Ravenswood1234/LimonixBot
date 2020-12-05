@@ -542,6 +542,51 @@ class Utilite(commands.Cog):
 				colour=discord.Color.red()),
 				delete_after=10
 				)
+	@commands.command()
+	@commands.has_permissions(manage_channels=True)
+	async def slowmode(self, ctx, value:int=None):
+		if value is None:
+			embed = discord.Embed(title="Слоумод",
+				description=f"Укажите кол-во секунд `{ctx.prefix}slowmode <value>`", 
+				color=discord.Color.red())
+			await ctx.send(embed=embed)
+		elif value > 21600:
+			embed = discord.Embed(title="Ошибка", description="Максимальное кол-во секунд: 21600", color=discord.Color.red())
+			await ctx.send(embed=embed)
+		else:
+			channel = ctx.channel
+			await channel.edit(slowmode_delay=value)
+
+			if value == 1:
+				sec = 'секунду'
+			elif value == 2 or value == 3 or value == 4:
+				sec = 'секунды'
+			else:
+				sec = 'секунд'
+
+			embed = discord.Embed(title="Слоумод", description=f"Поставлен слоумод на **{value}** {sec}, в {ctx.channel.mention}", color=discord.Color.green())
+			await ctx.send(embed=embed)
+	@commands.command()
+	async def bot(self, ctx):
+		pythonVersion = platform.python_version()
+		dpyVersion = discord.__version__
+		serverCount = len(client.guilds)
+		memberCount = len(set(client.get_all_members()))
+		emb = discord.Embed(
+			title="Инфо обо мне",
+			colour=discord.Color.green()
+			)
+		emb.add_field(
+			name=f"Меня зовут {self.client.name}",
+			value=f"""Я состою на: {serverCount}
+Я основан на: {dpyVersion}
+Моя версия пайтона: {pythonVersion}
+Мной пользуются: {memberCount}
+Мой разработчик: NikitaLimon#8925
+Версия: 2.0"""
+			)
+		await ctx.send(embed=emb)
+
 	# @commands.command()
 	# async def test(self, ctx):
 
