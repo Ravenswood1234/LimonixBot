@@ -142,7 +142,7 @@ async def on_guild_join(guild):
 			'guild_id':guild.id,
 			'cash':0,
 			'rep':0,
-			'limoncoin':0
+			'limoncoin':0,
 			'xp':0,
 			'lvl':0,
 			'nummessage':0
