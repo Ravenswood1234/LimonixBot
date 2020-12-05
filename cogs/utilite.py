@@ -190,11 +190,6 @@ class Utilite(commands.Cog):
 				emb.add_field(name="Количество пользователей с этой ролью",
 					value=len(role.members),
 					inline=False)
-				if len(role.members) <= 30:
-					emb.add_field(name="Пользователи с этой ролью",
-						value=", ".join([member.mention for member in role.members]),
-						inline=False)
-
 				emb.add_field(name='Позиция роли', value=role.position)
 				await ctx.send(embed=emb)
 			except:
@@ -284,16 +279,14 @@ class Utilite(commands.Cog):
 			name="Регион сервера",
 			value=reg[str(ctx.guild.region)]
 		)
+		system_channel = ctx.guild.system_channel
 		if str(ctx.guild.system_channel) == "None":
-			emb.add_field(
+			system_channel = "Неуказано"
+			
+		emb.add_field(
 			name="Системный канал",
-			value="Не указан"
-			)
-		else:
-			emb.add_field(
-			name="Системный канал",
-			value=ctx.guild.system_channel
-			)		
+			value=system_channel
+		)		
 		emb.add_field(
 			name="Бустов на сервере",
 			value=len(ctx.guild.premium_subscribers)
@@ -307,7 +300,7 @@ class Utilite(commands.Cog):
 			"medium":"Средний",
 			"high":"Высокий",
 			"extreme":"Самый высокий",
-			"None":"Нету"
+			"none":"Нету"
 		}
 
 		emb.add_field(
@@ -549,5 +542,14 @@ class Utilite(commands.Cog):
 				colour=discord.Color.red()),
 				delete_after=10
 				)
+	# @commands.command()
+	# async def test(self, ctx):
+
+	# 	file = discord.File("./fortnite.jpg", filename="fortnite.jpg")
+	# 	embed = discord.Embed(
+	# 		title="gg"
+	# 		)
+	# 	embed.set_image(url="attachment://fortnite.jpg")
+	# 	await ctx.send(file=file, embed=embed)
 def setup(client):
 	client.add_cog(Utilite(client))
