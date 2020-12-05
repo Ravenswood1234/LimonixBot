@@ -19,6 +19,17 @@ class Eve(commands.Cog):
 		print("Event cog connect")
 	@commands.Cog.listener()
 	async def on_member_join(self, member):
+		user={
+			'id':member.id,
+			'guild_id':guild.id,
+			'cash':0,
+			'rep':0,
+			'birthday':f'Неизвестно',
+			'information':f'Расскажите о себе',
+			'voic_active':0
+		}
+		if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
+			collection.insert_one(user)
 		idc = self.prefixes.find_one({"_guild_id": member.guild.id})["welcome"]
 		if idc == 0:
 			pass
