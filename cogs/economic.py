@@ -77,7 +77,7 @@ class Econom(commands.Cog):
 			emb.add_field(
 				name=f"Баланс пользователя {member.name}",
 				value=f"""Limoncoin: {self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['limoncoin']}
-Монет: {self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})}"""
+KiwiCoin: {self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})}"""
 				)
 			await ctx.send(embed=emb)
 		else:
