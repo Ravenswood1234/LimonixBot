@@ -32,6 +32,8 @@ class Utilite(commands.Cog):
 	"""docstring for User"""
 	def __init__(self, client):
 		self.client = client
+		self.cluster = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/lim?retryWrites=true&w=majority")
+		self.collection = self.cluster.lim.post
 	@commands.command(
 		name="Аватар",
 		aliases=['ava', 'avatar'],
@@ -329,6 +331,10 @@ class Utilite(commands.Cog):
 				title=f"Инфа о пользователе {member}",
 				colour=member.color
 				)
+			emb.add_field(
+				name="Биография пользователя",
+				value=f"{self.collection.find_one({'id':member.id, 'guild_id':guild.id})['information']}"
+				)
 			emb.set_thumbnail(url=member.avatar_url)
 			stik = {
 				"dnd":"<:dnd:780464026143555644>Не беспокоить",
@@ -340,14 +346,6 @@ class Utilite(commands.Cog):
 				name="Статус пользователя",
 				value=stik[str(member.status)],
 				inline=False
-				)
-			emb.add_field(
-				name="Имя пользователя",
-				value=str(member.name)
-				)
-			emb.add_field(
-				name="Тег пользователя",
-				value=str(member.discriminator)
 				)
 			emb.add_field(
 				name="Имя на сервере",
@@ -566,22 +564,6 @@ class Utilite(commands.Cog):
 
 			embed = discord.Embed(title="Слоумод", description=f"Поставлен слоумод на **{value}** {sec}, в {ctx.channel.mention}", color=discord.Color.green())
 			await ctx.send(embed=embed)
-	@commands.command()
-	async def bot(self, ctx):
-		emb = discord.Embed(
-			colour=discord.Color.gold()
-			)
-		emb.add_field(
-			name="Меня зовут LimonixBot",
-			value=f"""Я основан на языке: Python
-Меня создал: NikitaLimon#8925,
-Я состою на {len(self.client.guilds)}
-Всего пользователей: {len(set(self.client.get_all_members()))}
-			"""
-			)
-		emb.set_thumbnail(url=self.client.user.avatar_url)
-		await ctx.send(embed=emb)
-
 	# @commands.command()
 	# async def test(self, ctx):
 
