@@ -574,7 +574,7 @@ class Utilite(commands.Cog):
 		emb.add_field(
 			name="Меня зовут LimonixBot",
 			value=f"""Я основан на языке: Python
-Меня создал: {self.client.owner},
+Меня создал: NikitaLimon#8925,
 Я состою на {len(self.client.guilds)}
 Всего пользователей: {len(set(self.client.get_all_members()))}
 			"""
