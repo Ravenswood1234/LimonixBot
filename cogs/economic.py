@@ -179,7 +179,7 @@ class Econom(commands.Cog):
 	async def work(self, ctx):
 		pass
 	@work.error
-	async def work(self, ctx, error):
+	async def work_error(self, ctx, error):
 		if isinstance(error, commands.CommandOnCooldown):
 			await ctx.send(embed=discord.Embed(
 				title=':x:Ошибка',
