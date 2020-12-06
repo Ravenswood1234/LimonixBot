@@ -190,7 +190,7 @@ class Econom(commands.Cog):
 			seconds %= 60
 			await ctx.send(embed=discord.Embed(
 				title=':x:Ошибка',
-				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {hours} часов", 
+				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {seconds:.2f} часов", 
 				colour=discord.Color.red()), delete_after=10)
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
