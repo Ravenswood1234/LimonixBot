@@ -270,7 +270,7 @@ class Econom(commands.Cog):
 					await ctx.send(
 						embed=discord.Embed(
 								title="Успешно",
-								description=f"Вы пополнили баланс пользователю {member.name}",
+								description=f"Вы отняли баланс пользователю {member.name}",
 								colour=discord.Member.color
 								)
 							)
@@ -279,7 +279,7 @@ class Econom(commands.Cog):
 					await ctx.send(
 						embed=discord.Embed(
 							title="Успешно",
-							description=f"Вы пополнили баланс пользователю {member.name}",
+							description=f"Вы отняли баланс пользователю {member.name}",
 							colour=discord.Member.color
 							)
 						)
