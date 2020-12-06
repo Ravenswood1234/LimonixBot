@@ -105,8 +105,8 @@ class Econom(commands.Cog):
 	@commands.command(aliases=['addmoney'])
 	@commands.has_permissions(administrator=True)
 	async def award(self, ctx, member:discord.Member=None, amount:int = None, val = None):
-		lim = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
-		Kiwi = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['cash']
+		lim = self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['limoncoin']
+		Kiwi = self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['cash']
 		if member is None:
 			await ctx.send(
 				embed=discord.Embed(
@@ -299,6 +299,31 @@ class Econom(commands.Cog):
 						colour=discord.Color.red()
 						)
 					)
+	@commands.command()
+	@commands.cooldown(1, 86400, commands.BucketType.user)
+	async def daily(self, ctx):
+		lim = randint(50, 100)
+		kiw = randint(500, 10000)
+		l = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
+		k = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['cash']
+		self.collection.update_one({"id":ctx.author.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + l}})
+		self.collection.update_one({"id":ctx.author.id, "guild_id": ctx.guild.id}, {"$set": {"cash": kiw + k}})
+		emb = discord.Embed(
+			title="Бонус за день",
+
+			colour=discord.Color.gold()
+			)
+		emb.add_field(
+			name="Лимонкоин",
+			value=lim
+			)
+		emb.add_field(
+			name="Кивикоины",
+			value=kiw
+			)
+		emb.set_footer(text="Приходите через 24 часа")
+		await ctx.send(embed=emb)
+
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
 	# 	members = {
