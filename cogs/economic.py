@@ -235,6 +235,70 @@ class Econom(commands.Cog):
 				title=':x:Ошибка',
 				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
+	@commands.command()
+	@commands.has_permissions(administrator=True)
+	async def take(self, ctx, member:discord.Member=None, amount:int = None, val = None):
+		lim = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
+		Kiwi = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['cash']
+		if member is None:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Отнять",
+					description="Вы не указали пользователя!",
+					colour=discord.Color.red()
+					)
+				)
+		elif amount is None:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Отнять",
+					description="Вы неуказали кол-во монет которые хотите отнять у пользователя",
+					colour=discord.Color.red()
+					)
+				)
+		elif val is None:
+			await ctx.send(
+				embed = discord.Embed(
+					title="Отнять",
+					description="Вы не указали валюту, которую хотите отнять <limcoin/kiwicoin>"
+					)
+				)
+		else:
+			if type(member) == discord.Member:
+				if val == 'kiwicoin':
+					self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"cash": Kiwi - amount}})
+					await ctx.send(
+						embed=discord.Embed(
+								title="Успешно",
+								description=f"Вы пополнили баланс пользователю {member.name}",
+								colour=discord.Member.color
+								)
+							)
+				elif val == 'limoncoin':
+					self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim - amount}})
+					await ctx.send(
+						embed=discord.Embed(
+							title="Успешно",
+							description=f"Вы пополнили баланс пользователю {member.name}",
+							colour=discord.Member.color
+							)
+						)
+				else:
+					await ctx.send(
+						embed = discord.Embed(
+							title="Отнять",
+							description="Вы неправильно указали валюту!",
+							colour=discord.Color.red()
+							)
+						)
+			else:
+				await ctx.send(
+					embed=discord.Embed(
+						title="Пополнить",
+						description="Укажите **пользователя**!",
+						colour=discord.Color.red()
+						)
+					)
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
 	# 	members = {
