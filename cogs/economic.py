@@ -93,7 +93,7 @@ KiwiCoin: {self.collection.find_one({'id':ctx.author.id, 'guild_id':ctx.guild.id
 			await ctx.send(embed=emb)
 	@commands.command(aliases=['addmoney'])
 	@commands.has_permissions(administrator=True)
-	async def award(self, ctx, member:discord.Member=None, amount:int = None):
+	async def award(self, ctx, member:discord.Member=None, amount:int = None, val = None):
 		lim = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
 		Kiwi = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['cash']
 		if member is None:
@@ -112,22 +112,16 @@ KiwiCoin: {self.collection.find_one({'id':ctx.author.id, 'guild_id':ctx.guild.id
 					colour=discord.Color.red()
 					)
 				)
+		elif val is None:
+			await ctx.send(
+				embed = discord.Embed(
+					title="Пополнить",
+					description="Вы не указали валюту, которую хотите поплнить <limcoin/kiwicoin>"
+					)
+				)	
 		else:
 			if type(member) == discord.Member:
-				msg=await ctx.send(
-					embed=discord.Embed(
-						title="Пополнить",
-						description="""Выберите какую валюту хотите пополнить:
-LimonCoin: 🍋 
-KiwiCoin: 🥝""",)
-
-					)
-				await msg.add_reaction('🥝')
-				await msg.add_reaction('🍋')
-				def check(reaction, user):
-					return user == ctx.author
-				reaction, user = await self.client.wait_for('reaction_add', timeout=60.0, check = check)
-				if str(reaction.emoji) == '🥝':
+				if val == 'kiwicoin':
 					self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
 					await ctx.send(
 						embed=discord.Embed(
@@ -136,13 +130,22 @@ KiwiCoin: 🥝""",)
 							colour=discord.Member.color
 							)
 						)
-				if str(reaction.emoji) == '🍋':
+				elif val == 'limoncoin':
 					self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + amount}})
 					await ctx.send(
 						embed=discord.Embed(
 							title="Успешно",
 							description=f"Вы пополнили баланс пользователю {member.name}",
 							colour=discord.Member.color
+							)
+						)
+				else:
+					await ctx.send(
+						embed = discord.Embed(
+							title="Пополнить",
+							description="Вы неправильно указали валюту!",
+							colour=discord.Color.red()
+
 							)
 						)
 			else:
