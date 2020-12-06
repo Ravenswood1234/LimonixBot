@@ -72,12 +72,16 @@ class Econom(commands.Cog):
 			member = ctx.author
 		if type(member) == discord.Member:
 			emb = discord.Embed(
+				title=f"Баланс пользователя {member.name}",
 				colour=discord.Color.gold()
 				)
 			emb.add_field(
-				name=f"Баланс пользователя {member.name}",
-				value=f"""Limoncoin: {self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['limoncoin']}
-KiwiCoin: {self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})}"""
+				name=f"Limoncoin:",
+				value=self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['limoncoin']
+				)
+			emb.add_field(
+				name="KiwiCoin:",
+				value=self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})['cash']
 				)
 			await ctx.send(embed=emb)
 		else:
