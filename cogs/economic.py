@@ -83,7 +83,7 @@ KiwiCoin: {self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})}"
 		else:
 
 			emb = discord.Embed(
-				title=f'Баланс пользователя {ctx.author.name}'
+				title=f'Баланс пользователя {ctx.author.name}',
 				colour=discord.Color.gold()
 				)
 			emb.add_field(
