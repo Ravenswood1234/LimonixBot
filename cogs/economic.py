@@ -76,11 +76,11 @@ class Econom(commands.Cog):
 				colour=discord.Color.gold()
 				)
 			emb.add_field(
-				name=f"Limoncoin:",
+				name=f"🍋Limoncoin:",
 				value=self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['limoncoin']
 				)
 			emb.add_field(
-				name="KiwiCoin:",
+				name="🥝KiwiCoin:",
 				value=self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})['cash']
 				)
 			await ctx.send(embed=emb)
@@ -91,12 +91,12 @@ class Econom(commands.Cog):
 				colour=discord.Color.gold()
 				)
 			emb.add_field(
-				name=f"LimonCoin:",
+				name=f"🍋LimonCoin:",
 				value=self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin'],
 				inline=False
 				)
 			emb.add_field(
-				name="KiwiCoin:",
+				name="🥝KiwiCoin:",
 				value=self.collection.find_one({'id':ctx.author.id, 'guild_id':ctx.guild.id})['cash']
 				)
 			await ctx.send(embed=emb)
@@ -131,7 +131,7 @@ class Econom(commands.Cog):
 		else:
 			if type(member) == discord.Member:
 				if val == 'kiwicoin':
-					self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"coin": Kiwi + amount}})
+					self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"cash": Kiwi + amount}})
 					await ctx.send(
 						embed=discord.Embed(
 							title="Успешно",
@@ -174,6 +174,17 @@ class Econom(commands.Cog):
 					description="Укажите сумму которую хотите поплони пользователю!",
 					colour=discord.Color.red()
 					))
+	@commands.command()
+	@commands.cooldown(1, 3600, commands.BucketType.user)
+	async def work(self, ctx):
+		pass
+	@work.error
+	async def work(self, ctx, error):
+		if isinstance(error, commands.CommandOnCooldown):
+			await ctx.send(embed=discord.Embed(
+				title=':x:Ошибка',
+				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {error.retry_after} секунд", 
+				colour=discord.Color.red()), delete_after=10)
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
 	# 	members = {
