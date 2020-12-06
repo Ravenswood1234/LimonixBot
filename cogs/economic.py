@@ -2,12 +2,14 @@
 from discord.ext import commands, tasks
 from itertools import cycle 
 from datetime import datetime
+from random import randint
 from pymongo import MongoClient
 import datetime
 import io
 import discord
 import os
 import traceback
+import random
 class Econom(commands.Cog):
 	"""docstring for User"""
 	def __init__(self, client):
@@ -177,7 +179,48 @@ class Econom(commands.Cog):
 	@commands.command()
 	@commands.cooldown(1, 7200, commands.BucketType.user)
 	async def work(self, ctx):
-		pass
+		Limm = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
+		KIWW = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['cash']
+		lim = randint(50, 500)
+		kiw  = randint(100, 1000)
+		val = randint(1, 2)
+		if val == 1:
+			self.collection.update_one({"id":ctx.author.id, "guild_id": ctx.guild.id}, {"$set": {"cash": KIWW + kiw}})
+			emb = discord.Embed(
+				title="Работа",
+				colour=discord.Color.gold()
+				)
+			emb.add_field(
+				name="Лимонкоинов",
+				value=f"Вы заработали: 0"
+				)
+			emb.add_field(
+				name="Кивикоины",
+				value=f"Вы заработали: {kiw}"
+				)
+			emb.set_footer(text="Приходите через 2 часа")
+			await ctx.send(
+				embed=emb
+				)
+		elif val == 2:
+			self.collection.update_one({"id":ctx.author.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin": Limm + lim}})
+			self.collection.update_one({"id":ctx.author.id, "guild_id": ctx.guild.id}, {"$set": {"cash": KIWW + kiw}})
+			emb = discord.Embed(
+				title="Работа",
+				colour=discord.Color.gold()
+				)
+			emb.add_field(
+				name="Лимонкоинов",
+				value=f"Вы заработали: {lim}"
+				)
+			emb.add_field(
+				name="Кивикоины",
+				value=f"Вы заработали: {kiw}"
+				)
+			emb.set_footer(text="Приходите через 2 часа")
+			await ctx.send(
+				embed=emb
+				)
 	@work.error
 	async def work_error(self, ctx, error):
 		if isinstance(error, commands.CommandOnCooldown):
@@ -190,7 +233,7 @@ class Econom(commands.Cog):
 			seconds %= 60
 			await ctx.send(embed=discord.Embed(
 				title=':x:Ошибка',
-				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {hours} часов {minutes} минут {seconds:.2f} секунд", 
+				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
