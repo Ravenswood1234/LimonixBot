@@ -234,7 +234,7 @@ class Econom(commands.Cog):
 			await ctx.send(embed=discord.Embed(
 				title=':x:Ошибка',
 				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
-				colour=discord.Color.red()), delete_after=10)
+				colour=discord.Color.red()), delete_after=30)
 	@commands.command()
 	@commands.has_permissions(administrator=True)
 	async def take(self, ctx, member:discord.Member=None, amount:int = None, val = None):
@@ -323,7 +323,20 @@ class Econom(commands.Cog):
 			)
 		emb.set_footer(text="Приходите через 24 часа")
 		await ctx.send(embed=emb)
-
+	@daily.error
+	async def daily_error(self, ctx, error):
+		if isinstance(error, commands.CommandOnCooldown):
+			seconds = error.retry_after
+			seconds = seconds % (24 * 3600)
+			days = seconds // (60 * 60 * 24)
+			hours = seconds // 3600
+			seconds %= 3600
+			minutes = seconds // 60
+			seconds %= 60
+			await ctx.send(embed=discord.Embed(
+				title=':x:Ошибка',
+				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {days:.0f} дней {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
+				colour=discord.Color.red()), delete_after=10)
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
 	# 	members = {
