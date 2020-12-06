@@ -83,12 +83,17 @@ KiwiCoin: {self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})}"
 		else:
 
 			emb = discord.Embed(
+				title=f'Баланс пользователя {ctx.author.name}'
 				colour=discord.Color.gold()
 				)
 			emb.add_field(
-				name=f"Баланс пользователя {ctx.author.name}",
-				value=f"""LimonCoin: {self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']}
-KiwiCoin: {self.collection.find_one({'id':ctx.author.id, 'guild_id':ctx.guild.id})['cash']}"""
+				name=f"LimonCoin:",
+				value=self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin'],
+				inline=False
+				)
+			emb.add_field(
+				name="KiwiCoin:",
+				value=self.collection.find_one({'id':ctx.author.id, 'guild_id':ctx.guild.id})['cash']
 				)
 			await ctx.send(embed=emb)
 	@commands.command(aliases=['addmoney'])
