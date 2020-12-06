@@ -138,7 +138,7 @@ class Econom(commands.Cog):
 						embed=discord.Embed(
 							title="Успешно",
 							description=f"Вы пополнили баланс пользователю {member.name}",
-							colour=discord.Member.color
+							colour=discord.Color.gold()
 							)
 						)
 				elif val == 'limoncoin':
@@ -147,7 +147,7 @@ class Econom(commands.Cog):
 						embed=discord.Embed(
 							title="Успешно",
 							description=f"Вы пополнили баланс пользователю {member.name}",
-							colour=discord.Member.color
+							colour=discord.Color.gold()
 							)
 						)
 				else:
@@ -271,7 +271,7 @@ class Econom(commands.Cog):
 						embed=discord.Embed(
 								title="Успешно",
 								description=f"Вы отняли баланс пользователю {member.name}",
-								colour=discord.Member.color
+								colour=discord.Color.gold()
 								)
 							)
 				elif val == 'limoncoin':
@@ -280,7 +280,7 @@ class Econom(commands.Cog):
 						embed=discord.Embed(
 							title="Успешно",
 							description=f"Вы отняли баланс пользователю {member.name}",
-							colour=discord.Member.color
+							colour=discord.Color.gold()
 							)
 						)
 				else:
