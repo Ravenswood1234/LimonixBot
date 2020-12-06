@@ -27,7 +27,7 @@ class Help(commands.Cog):
 			)
 		emb.add_field(
 			name="Экономиика",
-			value="balance, award",
+			value="balance, award, take",
 			inline=False
 			)
 		emb.set_footer(text=f"При баге {ctx.prefix}bugs <bug>, при новой идеии {ctx.prefix}idea <idea>")
