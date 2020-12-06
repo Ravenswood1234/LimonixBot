@@ -175,7 +175,7 @@ class Econom(commands.Cog):
 					colour=discord.Color.red()
 					))
 	@commands.command()
-	@commands.cooldown(1, 3600, commands.BucketType.user)
+	@commands.cooldown(1, 7200, commands.BucketType.user)
 	async def work(self, ctx):
 		pass
 	@work.error
@@ -190,7 +190,7 @@ class Econom(commands.Cog):
 			seconds %= 60
 			await ctx.send(embed=discord.Embed(
 				title=':x:Ошибка',
-				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {hours}часов {minutes}минут {seconds:.2f} секунд", 
+				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {hours} часов {minutes} минут {seconds:.2f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
