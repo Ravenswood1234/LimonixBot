@@ -574,6 +574,25 @@ class Utilite(commands.Cog):
 
 			embed = discord.Embed(title="Слоумод", description=f"Поставлен слоумод на **{value}** {sec}, в {ctx.channel.mention}", color=discord.Color.green())
 			await ctx.send(embed=embed)
+	@commands.command()
+	async def ran(self, ctx, arg:int=None, arg2:int=None):
+		r = random.randint(arg, arg2)
+		try:
+			await ctx.send(
+				embed=discord.Embed(
+					title=f"Рандом число от {arg} до {arg2}",
+					description=f"Вам выпало {r}",
+					colour=discord.Color.gold()
+					)
+				)
+		except:
+			await ctx.send(
+				embed=discord.Embed(
+					title="рандом",
+					description="Укажите число от и до. Например: !ran 5 30",
+					colour=discord.Color.red()
+					)
+				)
 	# @commands.command()
 	# async def test(self, ctx):
 
