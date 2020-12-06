@@ -181,9 +181,16 @@ class Econom(commands.Cog):
 	@work.error
 	async def work_error(self, ctx, error):
 		if isinstance(error, commands.CommandOnCooldown):
+			seconds = error.retry_after
+			seconds = seconds % (24 * 3600)
+			days = seconds // (60 * 60 * 24)
+			hours = seconds // 3600
+			seconds %= 3600
+			minutes = seconds // 60
+			seconds %= 60
 			await ctx.send(embed=discord.Embed(
 				title=':x:Ошибка',
-				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {error.retry_after} секунд", 
+				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {hours} часов", 
 				colour=discord.Color.red()), delete_after=10)
 	# @commands.command(aliases=['осебе'])
 	# async def osebe(self, ctx, *, text = None):
