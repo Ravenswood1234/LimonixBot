@@ -33,7 +33,7 @@ class Eve(commands.Cog):
 Он уже {member.guild.member_count} участник нашего сервера!""")
 			embb.set_footer(text=f"Сервер: {member.guild.name}")
 			embb.set_thumbnail(url=member.avatar_url)
-			
+			embb.set_image(url="https://i.ibb.co/drPZW7d/hello.gif")
 			await channel.send( embed=embb)
 
 	# @commands.Cog.listener()
