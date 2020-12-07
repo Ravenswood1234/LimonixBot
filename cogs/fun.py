@@ -15,7 +15,7 @@ import io
 import time
 
 
-class Fun(commands.Cog):
+class Fun(commands.Cog, name="Фан"):
 	"""docstring for User"""
 	def __init__(self, client):
 		self.client = client
