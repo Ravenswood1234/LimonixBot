@@ -10,7 +10,7 @@ class Help(commands.Cog):
 		cog = self.client.cogs['Экономиика']
 		name = cog.qualified_name
 		commands = cog.get_commands()
-		emb = embed.Embed(
+		embed_all = embed.Embed(
 			title="Список команд",
 			colour=discord.Color.green()
 			)
