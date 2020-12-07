@@ -29,7 +29,7 @@ class Eve(commands.Cog):
 				title=f"{member.name}, добро пожаловать!",
 				colour=discord.Color.gold(), 
 				description=f"""**Поприветствуем** нового участника сервера.
-Его зовут {member.}.
+Его зовут {member}.
 Он уже {member.guild.member_count} участник нашего сервера!""")
 			embb.set_footer(text=f"Сервер: {member.guild.name}")
 			embb.set_thumbnail(url=member.avatar_url)
