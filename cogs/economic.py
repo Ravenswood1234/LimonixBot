@@ -10,7 +10,7 @@ import discord
 import os
 import traceback
 import random
-class Econom(commands.Cog):
+class Econom(commands.Cog, name="Экономиика"):
 	"""docstring for User"""
 	def __init__(self, client):
 		self.client = client
@@ -337,41 +337,7 @@ class Econom(commands.Cog):
 				title=':x:Ошибка',
 				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {days:.0f} дней {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
-	# @commands.command(aliases=['осебе'])
-	# async def osebe(self, ctx, *, text = None):
-	# 	members = {
-	# 		'member_id':ctx.author.id,
-	# 		'info': f'Расскажите о себе',
-	# 		'second_half': 'Нету'
-	# 		}
-	# 	if userinfo.count_documents({'member_id':ctx.author.id})==0:
-	# 		userinfo.insert_one(members)
-	# 	if text is None:
-	# 		await ctx.sned(
-	# 			embed=discord.Embed(
-	# 				title="О себе",
-	# 				description="Вы не указали текст",
-	# 				colour=discord.Color.red()
-	# 				)
-	# 			)
-	# 	else:
-	# 		if len(text) > 200:
-	# 			await ctx.send(
-	# 				embed=discord.Embed(
-	# 					title="Осебе",
-	# 					description="В вашей биографии не может быть больше 200 символов"
-	# 					)
-	# 				)
-	# 		else:
-	# 			self.userinfo.update_one({"member_id":ctx.author.id}, {"$set": {"info": text}})
-	# 			await ctx.send(
-	# 				embed=discord.Embed(
-
-	# 					title="Успешно",
-	# 					description="Вы успешно поменяли свою биографию на {}".format(text),
-	# 					colour=discord.Color.red()
-	# 					)
-	# 				)
+	
 
 def setup(client):
 	client.add_cog(Econom(client))
