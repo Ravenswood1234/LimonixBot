@@ -1,4 +1,5 @@
 #imports
+from pymongo import MongoClient
 from requests import get
 from datetime import datetime
 from discord.ext import commands, tasks
