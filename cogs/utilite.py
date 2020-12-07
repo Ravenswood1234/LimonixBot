@@ -576,19 +576,55 @@ class Utilite(commands.Cog):
 			await ctx.send(embed=embed)
 	@commands.command()
 	async def ran(self, ctx, arg:int=None, arg2:int=None):
-		r = random.randint(arg, arg2)
-		try:
+		if arg is None:
 			await ctx.send(
 				embed=discord.Embed(
-					title=f"Рандом число от {arg} до {arg2}",
-					description=f"Вам выпало {r}",
-					colour=discord.Color.gold()
+					title="Рандом",
+					description="Укажите число от и до. Например: !ran 5 30",
+					colour=discord.Color.red()
 					)
 				)
-		except:
+		elif arg2 is None:
 			await ctx.send(
 				embed=discord.Embed(
-					title="рандом",
+					title="Рандом",
+					description="Укажите число от и до. Например: !ran 5 30",
+					colour=discord.Color.red()
+					)
+				)
+		elif arg > arg2:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Рандом",
+					description="Укажите число от и до. Например: !ran 5 30",
+					colour=discord.Color.red()
+					)
+				)
+		else:
+			r = random.randint(arg, arg2)
+			try:
+				await ctx.send(
+					embed=discord.Embed(
+						title=f"Рандом число от {arg} до {arg2}",
+						description=f"Вам выпало {r}",
+						colour=discord.Color.gold()
+						)
+					)
+			except:
+
+				await ctx.send(
+					embed=discord.Embed(
+						title="Рандом",
+						description="Укажите число от и до. Например: !ran 5 30",
+						colour=discord.Color.red()
+						)
+					)
+	@ran.error
+	async def ran_error(self, ctx, error):
+		if isinstance(error, commands.UserInputError):
+			await ctx.send(
+				embed=discord.Embed(
+					title="Рандом",
 					description="Укажите число от и до. Например: !ran 5 30",
 					colour=discord.Color.red()
 					)
