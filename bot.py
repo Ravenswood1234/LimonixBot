@@ -57,7 +57,7 @@ async def on_ready():
 async def on_member_join(member):
 	user={
 		'id':member.id,
-		'guild_id':guild.id,
+		'guild_id':member.guild.id,
 		'cash':0,
 		'rep':0,
 		'limoncoin':0,
@@ -65,7 +65,7 @@ async def on_member_join(member):
 		'lvl':0,
 		'nummessage':0
 	}
-	if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
+	if collection.count_documents({'id':member.id, "guild_id":member.guild.id})==0:
 		collection.insert_one(user)
 @tasks.loop(seconds = 10)
 async def change_stats():
