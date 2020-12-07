@@ -53,6 +53,20 @@ async def on_ready():
 			
 	print("Bot connected to the server")
 	change_stats.start()
+@client.event
+async def on_member_join(member):
+	user={
+		'id':member.id,
+		'guild_id':guild.id,
+		'cash':0,
+		'rep':0,
+		'limoncoin':0,
+		'xp':0,
+		'lvl':0,
+		'nummessage':0
+	}
+	if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
+		collection.insert_one(user)
 @tasks.loop(seconds = 10)
 async def change_stats():
 	await client.change_presence( status = discord.Status.do_not_disturb, activity = discord.Game(name = next(stats)))
