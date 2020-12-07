@@ -31,9 +31,10 @@ async def on_ready():
 		post = {
 			"_guild_id": guild.id,
 			"prefix": "!",
-			"welcome": 0
+			"welcome": 0,
+			"leave":0
 		}
-		if prefixes.count_documents({"guild_id": guild.id}) == 0:
+		if prefixes.count_documents({"_guild_id": guild.id}) == 0:
 			prefixes.insert_one(post)
 		for member in guild.members:
 
