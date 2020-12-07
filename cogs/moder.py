@@ -24,14 +24,54 @@ answer4 = ['Это невозможно сделать, так как выгна
 answer3 = ['У вас не хватает прав!', 'Его роль стоит выше вашей!', 'Это нельзя сделать!', 'Ваша роль менее значима, чем этого пользователя!']
 answer2 = ['Ты быканул на основателя сервера, или мне показалось?', 'Что он такого плохого тебе сделал?', 'При всём уважении к тебе я так не могу сделать!', 'Ах если бы я так мог...', 'Я не буду этого делать!', 'Сорян, но не в моих это силах!']
 answer = ['Самоубийство не приведёт ни к чему хорошему!', 'Напомню: суицид - не выход!', 'Увы, я не могу этого сделать!', 'Самоубийство - не выход!', 'Не надо к себе так относиться!', 'Я не сделаю этого!', 'Я не буду это делать!', 'Я не выполню это действие', 'Не заставляй меня это сделать!']
-class Moderator(commands.Cog):
+class Moderator(commands.Cog, name="Модерация"):
 	"""docstring for User"""
 	def __init__(self, client):
 		self.client = client
-		
+		self.coll = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/report_system?retryWrites=true&w=majority")
+		self.coll3 = self.coll.report_system.system
+	
 	@commands.Cog.listener()
 	async def on_ready(self):
 		print("Moderator cog connect")
+	@commands.command(aliases=['сказать'])
+	@commands.has_permissions(manage_messages=True)
+	async def say(self, ctx, *, arg=None):
+		await ctx.message.delete()
+		try:
+			if arg is None:
+				await ctx.send(
+					embed=Embed(
+						title="Сказать",
+						description="Вы не ввели сообщение",
+						colour=Color.red()
+						)
+					)
+			else:
+				files = []
+				for file in ctx.message.attachments:
+					fp = io.BytesIO()
+					await file.save(fp)
+					files.append(discord.File(fp, filename = file.filename, spoiler = file.is_spoiler()))
+				await ctx.send(files = files, content=arg)
+		except:
+			await ctx.send(
+				embed=Embed(
+					title="Сказать",
+					description="Что то пошло не так...",
+					colour=Color.red()
+					)
+				)
+	@say.error
+	async def say_error(self, ctx, error):
+		if isinstance(error, commands.MissingPermissions):
+			await ctx.send(embed=discord.Embed(
+				title=':x:Ошибка',
+				description=f"""Недостаточно прав для использования команды say
+	Нужные права: Управлять сообщениями""", 
+				colour=discord.Color.red()),
+				delete_after=10
+				)
 	@commands.command(
 		name='голосование',
 		aliases=['Poll', 'POLL', 'poll'],
@@ -105,139 +145,76 @@ class Moderator(commands.Cog):
 			await member.send(embed=embed)
 			await ctx.send(embed=embed2)
 
-	# @commands.command()
-	# @commands.has_permissions(manage_messages=True)
-	# async def say(self, ctx, channel: discord.TextChannel = None):
-	# 	if channel is None:
-	# 		await ctx.send("Укажите канал для отправке")
-	# 	else:
-	# 		emb=discord.Embed(
-	# 			title="Выбирете вид say",
-	# 			colour=discord.Color.gold()
-	# 			)
-	# 		emb.add_field(
-	# 			name="1. - 1️⃣",
-	# 			value='[Заголовок] | [Описание] (картинка)',
-	# 			inline=False
-	# 			)
-	# 		emb.add_field(
-	# 			name="2. - 2️⃣",
-	# 			value='[Заголовок] | (картинка)',
-	# 			inline=False
-	# 			)
-	# 		emb.add_field(
-	# 			name="3. - 3️⃣",
-	# 			value='[Описание] | (картинка)',
-	# 			inline=False
-	# 			)
-	# 		emb.add_field(
-	# 			name="4. - 4️⃣",
-	# 			value='[Заголовок] | [Описание]',
-	# 			inline=False
-	# 			)
-	# 		msg = await ctx.send(embed=emb)
-	# 		await msg.add_reaction('1️⃣')
-	# 		await msg.add_reaction('2️⃣')
-	# 		await msg.add_reaction('3️⃣')
-	# 		await msg.add_reaction('4️⃣')
-	# 		def check(reaction, user):
-	# 			return user == ctx.author
-	# 		reaction, user = await self.client.wait_for('reaction_add', timeout=60.0, check = check)
-	# 		if str(reaction.emoji) == '1️⃣':
-	# 			await ctx.send("Теперь киньте заголовок")
-	# 			def check(m):
-	# 				return m.author.id == ctx.author.id
-	# 			try:
-	# 				h = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 			except asyncio.TimeoutError:
-	# 				await ctx.send('Вы не кинули заголовок!', delete_after=10)
-	# 			else:
-
-	# 				await ctx.send("Теперь киньте описание")
-	# 				def check(m):
-	# 					return m.author.id == ctx.author.id
-	# 				try:
-	# 					r = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 				except asyncio.TimeoutError:
-	# 					await ctx.send('Вы не кинули описание!', delete_after=10)
-	# 				else: 
-	# 					await ctx.send("Теперь киньте ссылку на картинку")
-	# 					def check(m):
-	# 						return m.author.id == ctx.author.id
-	# 					try:
-	# 						a = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 					except asyncio.TimeoutError:
-	# 						await ctx.send('Вы не кинули ссылку на картинку!', delete_after=10)
-	# 					else:
-	# 						emb = discord.Embed(title=h.content,
-	# 							description=r.content,
-	# 							colour=discord.Color.orange())
-	# 						emb.set_image(url=a.content)
-	# 						await channel.send(embed=emb)
-	# 		if str(reaction.emoji) == '2️⃣':	
-	# 			await ctx.send("Теперь киньте заголовок")
-	# 			def check(m):
-	# 				return m.author.id == ctx.author.id
-	# 			try:
-	# 				h = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 			except asyncio.TimeoutError:
-	# 				await ctx.send('Вы не кинули заголовок!', delete_after=10)
-	# 			else:
-	# 				emb = discord.Embed(title=h.content,
-	# 					colour=discord.Color.orange())
-	# 				await ctx.send("Теперь киньте ссылку на картинку")
-	# 				def check(m):
-	# 					return m.author.id == ctx.author.id
-	# 				try:
-	# 					a = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 				except asyncio.TimeoutError:
-	# 					await ctx.send('Вы не кинули ссылку на картинку!', delete_after=10)
-	# 				else:
-	# 					emb.set_image(url=a.content)
-	# 					await channel.send(embed=emb)
-	# 		if str(reaction.emoji) == '3️⃣':
-	# 			await ctx.send("Теперь киньте описание")
-	# 			def check(m):
-	# 				return m.author.id == ctx.author.id
-	# 			try:
-	# 				h = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 			except asyncio.TimeoutError:
-	# 				await ctx.send('Вы не кинули описание!', delete_after=10)
-	# 			else:
-	# 				emb = discord.Embed(description= h.content,
-	# 					colour=discord.Color.orange())
-	# 				await ctx.send("Теперь киньте ссылку на картинку")
-	# 				def check(m):
-	# 					return m.author.id == ctx.author.id
-	# 				try:
-	# 					a = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 				except asyncio.TimeoutError:
-	# 					await ctx.send('Вы не кинули ссылку на картинку!', delete_after=10)
-	# 				else:
-	# 					emb.set_image(url=a.content)
-	# 					await channel.send(embed=emb)
-	# 		if str(reaction.emoji) == '4️⃣':
-	# 			await ctx.send("Теперь киньте заголовок")
-	# 			def check(m):
-	# 				return m.author.id == ctx.author.id
-	# 			try:
-	# 				h = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 			except asyncio.TimeoutError:
-	# 				await ctx.send('Вы не кинули заголовок!', delete_after=10)
-	# 			else:
-
-	# 				await ctx.send("Теперь киньте описание")
-	# 				def check(m):
-	# 					return m.author.id == ctx.author.id
-	# 				try:
-	# 					a = await self.client.wait_for('message',timeout=30.0, check=check)
-	# 				except asyncio.TimeoutError:
-	# 					await ctx.send('Вы не кинули описание!', delete_after=10)
-	# 				else:
-	# 					emb = discord.Embed(title=h.content, 
-	# 						description = a.content,
-	# 						colour=discord.Color.orange())
-	# 					await channel.send(embed=emb)
+	@commands.command(aliases=['report-channel', 'reports-channel', 'reports_channel', 'канал-жалоб'])
+	@commands.has_permissions(administrator=True)
+	async def report_channel(self, ctx, on_off=None, channel: discord.TextChannel=None):
+		if on_off is None:
+			embed = discord.Embed(title="Ошибка", description=f"Укажите включение/выключение системы жалоб `{ctx.prefix}report-channel <on/off> <channel>`", color=discord.Color.red())
+			await ctx.send(embed=embed)
+		elif on_off == 'off':
+			if not self.coll3.find_one({"guild_id": ctx.guild.id}):
+				embed = discord.Embed(title="Ошибка", 
+					description=f"Невозможно отключить систему жалоб!\nСистема жалоб не включена", 
+					color=discord.Color.red())
+				await ctx.send(embed=embed)
+			else:
+				embed = discord.Embed(title="Система Жалоб", description=f"Система для жалоб успешно выключена на данном сервере!", color=discord.Color.green())
+				await ctx.send(embed=embed)
+				self.coll3.delete_one({"guild_id": ctx.guild.id})
+		elif on_off == 'on':
+			if channel is None:
+				embed = discord.Embed(title="Ошибка", description=f"Укажите канал для жалоб `{ctx.prefix}report-channel <on/off> <channel>`", color=discord.Color.red())
+				await ctx.send(embed=embed)
+			else:
+				if not self.coll3.find_one({"guild_id": ctx.guild.id}):
+					embed = discord.Embed(title="Канал Жалоб", description=f"Канал для жалоб успешно задан - {channel.mention}", color=discord.Color.green())
+					await ctx.send(embed=embed)
+					self.coll3.insert_one({"guild_id": ctx.guild.id, "channel_id": channel.id})
+				else:
+					self.coll3.delete_one({"guild_id": ctx.guild.id})
+					self.coll3.insert_one({"guild_id": ctx.guild.id, "channel_id": channel.id})
+					embed = discord.Embed(title="Канал Жалоб", description=f"Канал для жалоб успешно задан - {channel.mention}", color=discord.Color.green())
+					await ctx.send(embed=embed)
+		else:
+			embed = discord.Embed(title="Ошибка", description=f"Укажите включение/выключение системы жалоб `{ctx.prefix}report-channel <on/off> <channel>`", color=discord.Color.red())
+			await ctx.send(embed=embed)
+	@commands.command(aliases=['жалобы', 'send-report'])
+	async def report(self, ctx, member: discord.Member=None, *, reason=None):
+		if not self.coll3.find_one({"guild_id": ctx.guild.id}):
+			embed = discord.Embed(title="Ошибка", description=f"Система жалоб на этом сервере не включена!\nЧтобы включить введите - `{ctx.prefix}report-channel <on/off> <channel>`", color=discord.Color.red())
+			await ctx.send(embed=embed)
+		else:
+			if member is None:
+				embed = discord.Embed(title="Ошибка", description=f"Укажите пользователя `{ctx.prefix}report <member> <reason>`", color=discord.Color.red())
+				await ctx.send(embed=embed)
+			elif reason is None:
+				embed = discord.Embed(title="Ошибка", description=f"Укажите причину жалобы `{ctx.prefix}report <member> <reason>`", color=discord.Color.red())
+				await ctx.send(embed=embed)
+			elif member == ctx.author:
+				embed = discord.Embed(title="Ошибка", description="Вы не можете отправить жалобу на себя", color=discord.Color.red())
+				await ctx.send(embed=embed)
+			else:
+				if ctx.message.attachments:
+					for i in ctx.message.attachments:
+						channelid = self.coll3.find_one({"guild_id": ctx.guild.id})["channel_id"]
+						channel = ctx.guild.get_channel(channelid)
+						embed = discord.Embed(title="Жалоба", description=f"Жалоба была успешно отправлена в канал для жалоб!", color=discord.Color.green())
+						await ctx.send(embed=embed)
+						embed2 = discord.Embed(title="Новая Жалоба!", description=f"**Отправитель:** {ctx.author.mention}\n**Нарушитель:** {member.mention}\n**Причина:** {reason}", color=discord.Color.green())
+						embed2.set_image(url=i.url)
+						msg = await channel.send(embed=embed2)
+						await msg.add_reaction("✅")
+						await msg.add_reaction("❌")
+						break
+				else:
+					channelid = self.coll3.find_one({"guild_id": ctx.guild.id})["channel_id"]
+					channel = ctx.guild.get_channel(channelid)
+					embed = discord.Embed(title="Жалоба", description="Жалоба была успешно отправлена в канал для жалоб!", color=discord.Color.green())
+					await ctx.send(embed=embed)
+					embed2 = discord.Embed(title="Новая Жалоба!", description=f"**Отправитель:** {ctx.author.mention}\n**Нарушитель:** {member.mention}\n**Причина:** {reason}", color=discord.Color.green())
+					msg = await channel.send(embed=embed2)
+					await msg.add_reaction("✅")
+					await msg.add_reaction("❌")
 	@commands.command(
 		name='кик',
 		aliases=["kick"],
