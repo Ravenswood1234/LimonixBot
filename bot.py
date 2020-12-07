@@ -141,7 +141,8 @@ async def on_guild_join(guild):
 	post = {
 		"_guild_id": guild.id,
 		"prefix": "!",
-		"welcome": 0
+		"welcome": 0,
+		"leave":0
 	}
 	
 	prefixes.insert_one(post)
