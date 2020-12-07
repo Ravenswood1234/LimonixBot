@@ -87,7 +87,7 @@ class Econom(commands.Cog, name="Экономиика"):
 				await ctx.send(
 					embed=discord.Embed(
 						title="Успешно",
-						description=f"Вы успешно установили канал для приветсвий <#{channel.id}>",
+						description=f"Вы успешно установили канал для прощаний <#{channel.id}>",
 						colour=discord.Color.gold()
 						)
 					)
