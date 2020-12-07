@@ -44,9 +44,9 @@ class Eve(commands.Cog):
 			channel=self.client.get_channel(int(idc))
 			
 			embb = discord.Embed(
-				title=f"{member.name}, добро пожаловать!",
+				title=f"{member.name}, прощай:(",
 				colour=discord.Color.gold(), 
-				description=f"""Нас покинул один человек :(.
+				description=f"""Нас покинул один человек
 Его зовут {member}.
 Что ему у нас не понравилось?""")
 			embb.set_footer(text=f"Сервер: {member.guild.name}")
