@@ -35,7 +35,24 @@ class Eve(commands.Cog):
 			embb.set_thumbnail(url=member.avatar_url)
 			embb.set_image(url="https://i.ibb.co/drPZW7d/hello.gif")
 			await channel.send( embed=embb)
-
+	@commands.Cog.listener()
+	async def on_member_remove(self, member):
+		idc = self.prefixes.find_one({"_guild_id": member.guild.id})["leave"]
+		if idc == 0:
+			pass
+		else:
+			channel=self.client.get_channel(int(idc))
+			
+			embb = discord.Embed(
+				title=f"{member.name}, добро пожаловать!",
+				colour=discord.Color.gold(), 
+				description=f"""Нас покинул один человек :(.
+Его зовут {member}.
+Что ему у нас не понравилось?""")
+			embb.set_footer(text=f"Сервер: {member.guild.name}")
+			embb.set_thumbnail(url=member.avatar_url)
+			
+			await channel.send( embed=embb)
 	# @commands.Cog.listener()
 	# async def on_typing(self, channel, user, when):
 	# 	date = when.strftime("%d/%m/%Y %H:%M %p")
