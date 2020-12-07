@@ -7,24 +7,33 @@ class Help(commands.Cog):
 		self.client = client
 	@commands.command()
 	async def help(self, ctx):
-		cog = self.client.cogs['Экономиика']
-		name = cog.qualified_name
-		commands = cog.get_commands()
-		embed_all = embed.Embed(
-			title="Список команд",
-			colour=discord.Color.green()
+		emb = discord.Embed(
+			title="Список комманд",
+			colour=discord.Color.blue()
 			)
-		if name is not None:
-			comm_list = []
-			for command in commands:
-				if not command.hidden:
-					comm_list.append(f"`{ctx.prefix}{command.name}`")
-
-			embed_all.add_field(
-				name=f"Экономиика",
-				value=f"{', '.join(comm_list)}",
-				inline=False)
-		await ctx.send(embed=embed_all)
+		emb.add_field(
+			name="Утилиты",
+			value="wiki, userinfo, server, roleinfo, spotify, ping, ava, weather, google, say,  report",
+			inline=False
+			)
+		emb.add_field(
+			name="Модерация",
+			value="clear, say, poll, mute, slowmode, unmute, ban, kick, prefix, report-channel, welcome",
+			inline=False
+			)
+		emb.add_field(
+			name="Фан",
+			value="8ball, img, anekdot, fox, cat, dog",
+			inline=False
+			)
+		emb.add_field(
+			name="Экономиика",
+			value="balance, award, take, work, daily",
+			inline=False
+			)
+		emb.set_footer(text=f"При баге {ctx.prefix}bugs <bug>, при новой идеии {ctx.prefix}idea <idea>")
+		emb.set_author(name=f"Префикс: {ctx.prefix}")
+		await ctx.send(embed=emb)
 
 def setup(client):
 	client.add_cog(Help(client))
