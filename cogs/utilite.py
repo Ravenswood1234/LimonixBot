@@ -29,7 +29,7 @@ ava 'ava', 'avatar'+
 weather "погода" +
 google +
 """
-class Utilite(commands.Cog):
+class Utilite(commands.Cog, name="Утилиты"):
 	"""docstring for User"""
 	def __init__(self, client):
 		self.client = client
@@ -512,44 +512,7 @@ class Utilite(commands.Cog):
 
 			emb.set_author(name = '{}'.format(ctx.author), icon_url = '{}'.format(ctx.author.avatar_url))
 			await ctx.send(embed = emb)
-	@commands.command(aliases=['сказать'])
-	@commands.has_permissions(manage_messages=True)
-	async def say(self, ctx, *, arg=None):
-		await ctx.message.delete()
-		try:
-			if arg is None:
-				await ctx.send(
-					embed=Embed(
-						title="Сказать",
-						description="Вы не ввели сообщение",
-						colour=Color.red()
-						)
-					)
-			else:
-				files = []
-				for file in ctx.message.attachments:
-					fp = io.BytesIO()
-					await file.save(fp)
-					files.append(discord.File(fp, filename = file.filename, spoiler = file.is_spoiler()))
-				await ctx.send(files = files, content=arg)
-		except:
-			await ctx.send(
-				embed=Embed(
-					title="Сказать",
-					description="Что то пошло не так...",
-					colour=Color.red()
-					)
-				)
-	@say.error
-	async def say_error(self, ctx, error):
-		if isinstance(error, commands.MissingPermissions):
-			await ctx.send(embed=discord.Embed(
-				title=':x:Ошибка',
-				description=f"""Недостаточно прав для использования команды say
-	Нужные права: Управлять сообщениями""", 
-				colour=discord.Color.red()),
-				delete_after=10
-				)
+	
 	@commands.command()
 	@commands.has_permissions(manage_channels=True)
 	async def slowmode(self, ctx, value:int=None):
