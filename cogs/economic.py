@@ -68,6 +68,37 @@ class Econom(commands.Cog, name="Экономиика"):
 						colour=discord.Color.red()
 						)
 					)
+	@commands.command(aliases=['leave'])
+	@commands.has_permissions( administrator = True )
+	async def setlevchannel(self, ctx, channel: discord.TextChannel=None):
+		
+		if channel is None:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Канал прощаний",
+					description="Вы не указали канал",
+					colour=discord.Color.red()
+					)
+
+				)
+		else:
+			if type(channel) == discord.TextChannel:
+				self.prefixes.update_one({"_guild_id": ctx.guild.id}, {"$set": {"leave": int(channel.id)}})
+				await ctx.send(
+					embed=discord.Embed(
+						title="Успешно",
+						description=f"Вы успешно установили канал для приветсвий <#{channel.id}>",
+						colour=discord.Color.gold()
+						)
+					)
+			else:
+				await ctx.send(
+					embed=discord.Embed(
+						title="Канал для прощаний",
+						description="Укажите текстовый канал!",
+						colour=discord.Color.red()
+						)
+					)
 	@commands.command(aliases=['баланс'])
 	async def balance(self, ctx, member:discord.Member=None):
 		if member is None:
