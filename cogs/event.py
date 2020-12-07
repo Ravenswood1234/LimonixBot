@@ -19,18 +19,6 @@ class Eve(commands.Cog):
 		print("Event cog connect")
 	@commands.Cog.listener()
 	async def on_member_join(self, member):
-		user={
-			'id':member.id,
-			'guild_id':guild.id,
-			'cash':0,
-			'rep':0,
-			'limoncoin':0,
-			'xp':0,
-			'lvl':0,
-			'nummessage':0
-		}
-		if collection.count_documents({'id':member.id, "guild_id":guild.id})==0:
-			collection.insert_one(user)
 		idc = self.prefixes.find_one({"_guild_id": member.guild.id})["welcome"]
 		if idc == 0:
 			pass
@@ -41,7 +29,7 @@ class Eve(commands.Cog):
 				title=f"{member.name}, добро пожаловать!",
 				colour=discord.Color.gold(), 
 				description=f"""**Поприветствуем** нового участника сервера.
-Его зовут {member.mention}.
+Его зовут {member.}.
 Он уже {member.guild.member_count} участник нашего сервера!""")
 			embb.set_footer(text=f"Сервер: {member.guild.name}")
 			embb.set_thumbnail(url=member.avatar_url)
