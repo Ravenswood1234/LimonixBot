@@ -111,7 +111,7 @@ class Fun(commands.Cog, name="Фан"):
 		embed.set_image(url = json_data['link']) # Устанавливаем картинку Embed'a
 		
 		await ctx.send(embed = embed) # Отправляем Embed
-	  
+	
 ballsend=[
 	'духи говорят "да"',
 	'духи говорят "нет"',
