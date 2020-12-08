@@ -53,11 +53,7 @@ class Eve(commands.Cog):
 			embb.set_thumbnail(url=member.avatar_url)
 			
 			await channel.send( embed=embb)
-	@commands.Cog.listener()
-	async def on_member_update(self, member, after, before):
-		spot = next((activity for activity in member.activities if isinstance(activity, discord.Spotify)), None)
-		if after.spot == before.spot:
-			await member.add_roles(758558503987445772)
+
 	# @commands.Cog.listener()
 	# async def on_typing(self, channel, user, when):
 	# 	date = when.strftime("%d/%m/%Y %H:%M %p")
