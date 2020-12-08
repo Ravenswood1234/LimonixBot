@@ -333,20 +333,13 @@ class Econom(commands.Cog, name="Экономиика"):
 	@commands.command()
 	@commands.cooldown(1, 86400, commands.BucketType.user)
 	async def daily(self, ctx):
-		lim = randint(50, 100)
 		kiw = randint(500, 10000)
-		l = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
 		k = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['cash']
-		self.collection.update_one({"id":ctx.author.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + l}})
 		self.collection.update_one({"id":ctx.author.id, "guild_id": ctx.guild.id}, {"$set": {"cash": kiw + k}})
 		emb = discord.Embed(
 			title="Бонус за день",
 
 			colour=discord.Color.gold()
-			)
-		emb.add_field(
-			name="Лимонкоин",
-			value=lim
 			)
 		emb.add_field(
 			name="Кивикоины",
@@ -368,7 +361,53 @@ class Econom(commands.Cog, name="Экономиика"):
 				title=':x:Ошибка',
 				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {days:.0f} дней {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
-
-
+	@commands.command()
+	@commands.cooldown(1, 86400, commands.BucketType.user)
+	async def casino(self, ctx):
+		l = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
+		if l < 100:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Казино",
+					description="Чтобы играть, вам нужно иметь хотя бы 100 лимонкоинов!",
+					colour=discord.Color.red()
+					)
+				)
+		member=ctx.author
+		lim = randint(100, 1000)
+		r = randint(1, 3)
+		elif r == 2:
+			self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + l}})
+			emb = discord.Embed(
+				title="Казино",
+				colour=member.color
+				)
+			emb.add_field(
+				name="Уху, удача похоже на вашей стороне",
+				value=f"Вы выиграли {lim} лимонкоинов"
+				)
+			emb.set_footer(text=f"Победитель: {member.name}", icon_url=member.avatar_url)
+			await ctx.send(embed=emb)
+		else:
+			self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin":l - 100}})
+			emb = discord.Embed(
+				title="Казино",
+				colour=member.color
+				)
+			emb.add_field(
+				name="Уху, удача похоже не на вашей стороне",
+				value=f"Вы проиграл 100 лимонкоинов"
+				)
+			emb.set_footer(text=f"Проигравший: {member.name}", icon_url=member.avatar_url)
+			await ctx.send(embed=emb)
+	@casino.error
+	async def casino_error(self, ctx, error):
+		if isinstance(error, commands.CommandOnCooldown):
+			seconds = error.retry_after
+			
+			await ctx.send(embed=discord.Embed(
+				title=':x:Ошибка',
+				description=f"Подожди, не надо банкротить до конца казино!\nПодождите еще {seconds:.0f} секунд", 
+				colour=discord.Color.red()), delete_after=10)
 def setup(client):
 	client.add_cog(Econom(client))
