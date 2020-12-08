@@ -269,8 +269,8 @@ class Econom(commands.Cog, name="Экономиика"):
 	@commands.command()
 	@commands.has_permissions(administrator=True)
 	async def take(self, ctx, member:discord.Member=None, amount:int = None, val = None):
-		lim = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
-		Kiwi = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['cash']
+		lim = self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['limoncoin']
+		Kiwi = self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['cash']
 		if member is None:
 			await ctx.send(
 				embed=discord.Embed(
@@ -368,7 +368,9 @@ class Econom(commands.Cog, name="Экономиика"):
 				title=':x:Ошибка',
 				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {days:.0f} дней {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
-	
+	@commands.command()
+	async def test(self, ctx, member:discord.Member=ctx.author):
+		await ctx.send(f"{member.mention}")
 
 def setup(client):
 	client.add_cog(Econom(client))
