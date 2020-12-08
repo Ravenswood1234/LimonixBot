@@ -365,6 +365,9 @@ class Econom(commands.Cog, name="Экономиика"):
 	@commands.cooldown(1, 86400, commands.BucketType.user)
 	async def casino(self, ctx):
 		l = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
+		member=ctx.author
+		lim = randint(100, 1000)
+		r = randint(1, 3)
 		if l < 100:
 			await ctx.send(
 				embed=discord.Embed(
@@ -373,9 +376,7 @@ class Econom(commands.Cog, name="Экономиика"):
 					colour=discord.Color.red()
 					)
 				)
-		member=ctx.author
-		lim = randint(100, 1000)
-		r = randint(1, 3)
+		
 		elif r == 2:
 			self.collection.update_one({"id":member.id, "guild_id": ctx.guild.id}, {"$set": {"limoncoin": lim + l}})
 			emb = discord.Embed(
