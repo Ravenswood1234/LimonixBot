@@ -56,7 +56,7 @@ class Eve(commands.Cog):
 	@commands.Cog.listener()
 	async def on_member_update(self, member, after, before):
 		spot = next((activity for activity in member.activities if isinstance(activity, discord.Spotify)), None)
-		if before.status == after.spot:
+		if after.status == after.spot:
 			await member.add_roles(758558503987445772)
 	# @commands.Cog.listener()
 	# async def on_typing(self, channel, user, when):
