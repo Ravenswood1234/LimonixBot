@@ -362,7 +362,7 @@ class Econom(commands.Cog, name="Экономиика"):
 				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {days:.0f} дней {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
 	@commands.command()
-	@commands.cooldown(1, 86400, commands.BucketType.user)
+	@commands.cooldown(1, 30, commands.BucketType.user)
 	async def casino(self, ctx):
 		l = self.collection.find_one({"id":ctx.author.id, "guild_id": ctx.guild.id})['limoncoin']
 		member=ctx.author
