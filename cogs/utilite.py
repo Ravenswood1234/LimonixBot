@@ -592,14 +592,7 @@ class Utilite(commands.Cog, name="Утилиты"):
 					colour=discord.Color.red()
 					)
 				)
-	# @commands.command()
-	# async def test(self, ctx):
+	
 
-	# 	file = discord.File("./fortnite.jpg", filename="fortnite.jpg")
-	# 	embed = discord.Embed(
-	# 		title="gg"
-	# 		)
-	# 	embed.set_image(url="attachment://fortnite.jpg")
-	# 	await ctx.send(file=file, embed=embed)
 def setup(client):
 	client.add_cog(Utilite(client))
