@@ -368,9 +368,7 @@ class Econom(commands.Cog, name="Экономиика"):
 				title=':x:Ошибка',
 				description=f"У вас еще не прошел кулдаун на команду ``{ctx.command}``!\nПодождите еще {days:.0f} дней {hours:.0f} часов {minutes:.0f} минут {seconds:.0f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
-	@commands.command()
-	async def test(self, ctx, member:discord.Member=ctx.author):
-		await ctx.send(f"{member.mention}")
+
 
 def setup(client):
 	client.add_cog(Econom(client))
