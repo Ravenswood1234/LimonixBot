@@ -110,11 +110,11 @@ class Econom(commands.Cog, name="Экономиика"):
 				colour=discord.Color.gold()
 				)
 			emb.add_field(
-				name=f"🍋Limoncoin:",
+				name=f"🍋Писькаcoin:",
 				value=self.collection.find_one({"id":member.id, "guild_id": ctx.guild.id})['limoncoin']
 				)
 			emb.add_field(
-				name="🥝KiwiCoin:",
+				name="🥝ХуйCoin:",
 				value=self.collection.find_one({'id':member.id, 'guild_id':ctx.guild.id})['cash']
 				)
 			await ctx.send(embed=emb)
