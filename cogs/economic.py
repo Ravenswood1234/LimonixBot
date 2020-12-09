@@ -20,7 +20,8 @@ class Econom(commands.Cog, name="Экономиика"):
 		self.collection = self.cluster.lim.post
 		self.users = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/member?retryWrites=true&w=majority")
 		self.userinfo = self.users.member.information
-
+		self.s = MongoClient("mongodb+srv://limonix:1q234567wE@cluster0.tthbn.mongodb.net/shop?retryWrites=true&w=majority")
+		self.shop = self.s.shop.shopping
 	@commands.command(aliases=['setprefix'])
 	@commands.has_permissions( administrator = True )
 	async def prefix(self, ctx, arg: str = None):
@@ -410,5 +411,53 @@ class Econom(commands.Cog, name="Экономиика"):
 				title=':x:Ошибка',
 				description=f"Подожди, не надо банкротить до конца казино!\nПодождите еще {seconds:.0f} секунд", 
 				colour=discord.Color.red()), delete_after=10)
+	@commands.command()
+	async def shop(self, ctx):
+		emb = discord.Embed(title="Магазин ролей")
+		for role in self.shop.find_one({"guild_id": ctx.guild.id})['shop']:
+			emb.add_field(name=f"Цена: {self.shop.find_one({"guild_id":ctx.guild.id})['shop'][role]['cost']}",
+				value=f"<&{role}>", inline=False)
+	@commands.command()
+	async def add_role(self, ctx, role:discord.Role=None, cost=None):
+		role = {
+			"guild_id":ctx.guild.id,
+			"shop":role.id,
+			"cost":cost
+		}
+		if role is None:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Добавление ролей",
+					description="Вы не указали роль!",
+					colour=discord.Color.red()
+					)
+				)
+		elif cost is None:
+			await ctx.send(
+				embed=discord.Embed(
+					title="Добавление ролей",
+					description="Вы не указали цену роли!",
+					colour=discord.Color.red()
+					)
+				)
+		else:
+			if self.shop.count_documents({"guild_id":member.guild.id})==0:
+				self.shop.insert_one(role)
+				await ctx.send(
+					embed=discord.Embed(
+						title="Успешно",
+						description="Была ддобавлена роль в магазин!",
+						colour=discord.Color.gold()
+						)
+					)
+			else:
+				await ctx.send(
+					embed=discord.Embed(
+						title="Добавить роль",
+						description="Эта роль уже есть в магазине!",
+						colour=discord.Color.gold()
+
+						)
+					)
 def setup(client):
 	client.add_cog(Econom(client))
