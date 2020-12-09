@@ -415,7 +415,7 @@ class Econom(commands.Cog, name="Экономиика"):
 	async def shop(self, ctx):
 		emb = discord.Embed(title="Магазин ролей")
 		for role in self.shop.find_one({"guild_id": ctx.guild.id})['shop']:
-			emb.add_field(name=f"Цена: {self.shop.find_one({"guild_id":ctx.guild.id})['shop'][role]['cost']}",
+			emb.add_field(name=f"Цена: {self.shop.find_one({'guild_id':ctx.guild.id})['shop'][role]['cost']}",
 				value=f"<&{role}>", inline=False)
 		await ctx.embed(embed=emb)
 	@commands.command()
